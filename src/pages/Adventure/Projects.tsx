@@ -3,16 +3,18 @@ import { QuestCard } from '@/components/QuestCard/QuestCard'
 import { projects } from '@/data/projects'
 import { useMarkSectionVisited } from '@/features/game-progress/useMarkSectionVisited'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
+import { useLanguage } from '@/i18n/useLanguage'
 import styles from './Projects.module.css'
 
 export default function Projects() {
   useDocumentTitle('Quests')
   useMarkSectionVisited('projects')
+  const { t } = useLanguage()
 
   return (
     <div>
-      <h2>Quests</h2>
-      <p>Projetos, tratados como missões.</p>
+      <h2>{t.projects.heading}</h2>
+      <p>{t.projects.subtitle}</p>
 
       {projects.length > 0 ? (
         <div className={styles.grid}>
@@ -21,10 +23,7 @@ export default function Projects() {
           ))}
         </div>
       ) : (
-        <EmptyState
-          title="Nenhuma quest cadastrada ainda"
-          description="Os projetos aparecem aqui assim que forem adicionados em src/data/projects.ts."
-        />
+        <EmptyState title={t.projects.emptyTitle} description={t.projects.emptyDescription} />
       )}
     </div>
   )

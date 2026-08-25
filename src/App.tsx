@@ -1,6 +1,7 @@
 import { HashRouter } from 'react-router-dom'
 import { SkipLink } from '@/components/SkipLink'
 import { GameProgressProvider } from '@/features/game-progress/GameProgressContext'
+import { LanguageProvider } from '@/i18n/LanguageContext'
 import { AppRoutes } from '@/routes'
 
 /**
@@ -12,10 +13,12 @@ import { AppRoutes } from '@/routes'
 export default function App() {
   return (
     <HashRouter>
-      <GameProgressProvider>
-        <SkipLink />
-        <AppRoutes />
-      </GameProgressProvider>
+      <LanguageProvider>
+        <GameProgressProvider>
+          <SkipLink />
+          <AppRoutes />
+        </GameProgressProvider>
+      </LanguageProvider>
     </HashRouter>
   )
 }

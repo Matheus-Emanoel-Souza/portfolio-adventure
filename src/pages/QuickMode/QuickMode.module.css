@@ -21,6 +21,12 @@
   text-decoration: none;
 }
 
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
 .backLink {
   font-size: 0.85rem;
 }

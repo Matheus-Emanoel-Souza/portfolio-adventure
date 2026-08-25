@@ -20,8 +20,15 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
+  flex-wrap: wrap;
   padding-bottom: var(--space-3);
   border-bottom: 1px solid var(--color-border);
+}
+
+.channelActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .channel:last-child {

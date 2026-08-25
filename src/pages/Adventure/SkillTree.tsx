@@ -6,14 +6,14 @@ import { getProjectsBySkillId } from '@/data/projects'
 import { getSkillById, skills } from '@/data/skills'
 import { useMarkSectionVisited } from '@/features/game-progress/useMarkSectionVisited'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
-import { SKILL_CATEGORY_LABELS, type SkillCategory } from '@/types'
+import { useLanguage } from '@/i18n/useLanguage'
+import { SKILL_CATEGORIES } from '@/types'
 import styles from './SkillTree.module.css'
-
-const CATEGORIES = Object.keys(SKILL_CATEGORY_LABELS) as SkillCategory[]
 
 export default function SkillTree() {
   useDocumentTitle('Skill Tree')
   useMarkSectionVisited('skills')
+  const { t } = useLanguage()
 
   const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null)
   const selectedSkill = selectedSkillId ? getSkillById(selectedSkillId) : undefined
@@ -21,15 +21,15 @@ export default function SkillTree() {
 
   return (
     <div>
-      <h2>Skill Tree</h2>
-      <p>Selecione uma skill pra ver em quais projetos ela foi usada.</p>
+      <h2>{t.skillTree.heading}</h2>
+      <p>{t.skillTree.subtitle}</p>
 
       <div className={styles.categories}>
-        {CATEGORIES.map((category) => {
+        {SKILL_CATEGORIES.map((category) => {
           const categorySkills = skills.filter((skill) => skill.category === category)
           return (
             <div key={category} className={styles.category}>
-              <h3 className={styles.categoryTitle}>{SKILL_CATEGORY_LABELS[category]}</h3>
+              <h3 className={styles.categoryTitle}>{t.skillCategory[category]}</h3>
               {categorySkills.length > 0 ? (
                 <div className={styles.nodes}>
                   {categorySkills.map((skill) => (
@@ -52,7 +52,7 @@ export default function SkillTree() {
                   ))}
                 </div>
               ) : (
-                <p className={styles.emptyNote}>Em construção — a preencher.</p>
+                <p className={styles.emptyNote}>{t.skillTree.constructionNote}</p>
               )}
             </div>
           )
@@ -76,8 +76,8 @@ export default function SkillTree() {
             </ul>
           ) : (
             <EmptyState
-              title="Nenhum projeto vinculado ainda"
-              description="Associe projetos a esta skill via skillIds em src/data/projects.ts."
+              title={t.skillTree.emptyProjectsTitle}
+              description={t.skillTree.emptyProjectsDescription}
             />
           )}
         </PixelPanel>

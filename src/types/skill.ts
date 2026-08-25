@@ -6,6 +6,15 @@ export type SkillCategory =
   | 'tools'
   | 'architecture'
 
+export const SKILL_CATEGORIES: SkillCategory[] = [
+  'frontend',
+  'backend',
+  'database',
+  'devops',
+  'tools',
+  'architecture',
+]
+
 export interface Skill {
   id: string
   name: string
@@ -14,11 +23,4 @@ export interface Skill {
   summary?: string
 }
 
-export const SKILL_CATEGORY_LABELS: Record<SkillCategory, string> = {
-  frontend: 'Frontend',
-  backend: 'Backend',
-  database: 'Banco de Dados',
-  devops: 'DevOps',
-  tools: 'Ferramentas',
-  architecture: 'Arquitetura',
-}
+// Rótulos por categoria ficam no dicionário de i18n (src/i18n/*.ts).

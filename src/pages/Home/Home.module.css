@@ -1,4 +1,5 @@
 .hero {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -17,6 +18,12 @@
       rgba(77, 214, 255, 0.05) 3px,
       rgba(77, 214, 255, 0.05) 4px
     );
+}
+
+.languageBar {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
 }
 
 .titleBlock {

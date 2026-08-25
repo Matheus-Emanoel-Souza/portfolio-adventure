@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
 import { EmptyState } from '@/components/EmptyState/EmptyState'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher/LanguageSwitcher'
 import { QuestCard } from '@/components/QuestCard/QuestCard'
 import { profile } from '@/data/profile'
 import { projects } from '@/data/projects'
 import { skills } from '@/data/skills'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
-import { SKILL_CATEGORY_LABELS, type SkillCategory } from '@/types'
+import { useLanguage } from '@/i18n/useLanguage'
+import { SKILL_CATEGORIES } from '@/types'
 import styles from './QuickMode.module.css'
-
-const CATEGORIES = Object.keys(SKILL_CATEGORY_LABELS) as SkillCategory[]
 
 /**
  * Versão tradicional e rápida do portfólio — mesmos dados de
@@ -17,6 +17,7 @@ const CATEGORIES = Object.keys(SKILL_CATEGORY_LABELS) as SkillCategory[]
  */
 export default function QuickMode() {
   useDocumentTitle('Quick Mode')
+  const { t } = useLanguage()
 
   return (
     <div className={styles.page}>
@@ -24,9 +25,12 @@ export default function QuickMode() {
         <Link to="/" className={styles.brand}>
           {profile.handle}
         </Link>
-        <Link to="/adventure" className={styles.backLink}>
-          Ver modo aventura →
-        </Link>
+        <div className={styles.headerRight}>
+          <Link to="/adventure" className={styles.backLink}>
+            {t.quickMode.viewAdventure}
+          </Link>
+          <LanguageSwitcher />
+        </div>
       </header>
 
       <main id="main-content" className={styles.main} tabIndex={-1}>
@@ -37,16 +41,14 @@ export default function QuickMode() {
         </section>
 
         <section className={styles.section}>
-          <h2>Skills</h2>
+          <h2>{t.quickMode.skillsHeading}</h2>
           <div className={styles.skillGroups}>
-            {CATEGORIES.map((category) => {
+            {SKILL_CATEGORIES.map((category) => {
               const categorySkills = skills.filter((skill) => skill.category === category)
               if (categorySkills.length === 0) return null
               return (
                 <div key={category}>
-                  <span className={styles.skillGroupTitle}>
-                    {SKILL_CATEGORY_LABELS[category]}
-                  </span>
+                  <span className={styles.skillGroupTitle}>{t.skillCategory[category]}</span>
                   <ul className={styles.skillChips}>
                     {categorySkills.map((skill) => (
                       <li key={skill.id}>{skill.name}</li>
@@ -59,7 +61,7 @@ export default function QuickMode() {
         </section>
 
         <section className={styles.section}>
-          <h2>Projetos</h2>
+          <h2>{t.quickMode.projectsHeading}</h2>
           {projects.length > 0 ? (
             <div className={styles.projectList}>
               {projects.map((project) => (
@@ -68,14 +70,14 @@ export default function QuickMode() {
             </div>
           ) : (
             <EmptyState
-              title="Projetos em breve"
-              description="Lista completa em src/data/projects.ts."
+              title={t.quickMode.projectsEmptyTitle}
+              description={t.quickMode.projectsEmptyDescription}
             />
           )}
         </section>
 
         <section className={styles.section}>
-          <h2>Contato</h2>
+          <h2>{t.quickMode.contactHeading}</h2>
           <div className={styles.contactList}>
             <a href={profile.social.github} target="_blank" rel="noreferrer">
               GitHub

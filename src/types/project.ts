@@ -1,10 +1,7 @@
 export type ProjectStatus = 'completed' | 'in-progress' | 'planned'
 
-export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
-  completed: 'QUEST COMPLETED',
-  'in-progress': 'QUEST IN PROGRESS',
-  planned: 'QUEST PLANNED',
-}
+// Rótulos de status ficam no dicionário de i18n (src/i18n/*.ts), não aqui —
+// são texto de interface, traduzido por idioma.
 
 export interface ProjectLinks {
   demo?: string

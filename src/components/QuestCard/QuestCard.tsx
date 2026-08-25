@@ -2,7 +2,8 @@ import { PixelButton } from '@/components/PixelButton/PixelButton'
 import { PixelPanel } from '@/components/PixelPanel/PixelPanel'
 import { StatusTag } from '@/components/StatusTag/StatusTag'
 import { getSkillsByIds } from '@/data/skills'
-import { PROJECT_STATUS_LABELS, type Project } from '@/types'
+import { useLanguage } from '@/i18n/useLanguage'
+import type { Project } from '@/types'
 import styles from './QuestCard.module.css'
 
 const STATUS_TONE = {
@@ -19,6 +20,7 @@ interface QuestCardProps {
 
 /** Card de projeto-como-quest. Compartilhado entre a Aventura e o Quick Mode. */
 export function QuestCard({ project, compact = false }: QuestCardProps) {
+  const { t } = useLanguage()
   const technologies = getSkillsByIds(project.skillIds)
 
   return (
@@ -26,7 +28,7 @@ export function QuestCard({ project, compact = false }: QuestCardProps) {
       <div className={styles.header}>
         <h3 className={styles.name}>{project.name}</h3>
         <StatusTag tone={STATUS_TONE[project.status]}>
-          {PROJECT_STATUS_LABELS[project.status]}
+          {t.projectStatus[project.status]}
         </StatusTag>
       </div>
 
@@ -35,11 +37,11 @@ export function QuestCard({ project, compact = false }: QuestCardProps) {
       {!compact && (
         <>
           <div className={styles.section}>
-            <span className={styles.sectionLabel}>Problema</span>
+            <span className={styles.sectionLabel}>{t.common.problem}</span>
             <p>{project.problem}</p>
           </div>
           <div className={styles.section}>
-            <span className={styles.sectionLabel}>Solução</span>
+            <span className={styles.sectionLabel}>{t.common.solution}</span>
             <p>{project.solution}</p>
           </div>
         </>
@@ -47,7 +49,7 @@ export function QuestCard({ project, compact = false }: QuestCardProps) {
 
       {technologies.length > 0 && (
         <div className={styles.section}>
-          <span className={styles.sectionLabel}>Tecnologias</span>
+          <span className={styles.sectionLabel}>{t.common.technologies}</span>
           <ul className={styles.techList}>
             {technologies.map((tech) => (
               <li key={tech.id} className={styles.techChip}>
@@ -61,7 +63,12 @@ export function QuestCard({ project, compact = false }: QuestCardProps) {
       {!compact && project.screenshots && project.screenshots.length > 0 && (
         <div className={styles.screenshots}>
           {project.screenshots.map((src) => (
-            <img key={src} src={src} alt={`Screenshot de ${project.name}`} loading="lazy" />
+            <img
+              key={src}
+              src={src}
+              alt={`${t.common.screenshotOf} ${project.name}`}
+              loading="lazy"
+            />
           ))}
         </div>
       )}
@@ -75,12 +82,12 @@ export function QuestCard({ project, compact = false }: QuestCardProps) {
             rel="noreferrer"
             variant="primary"
           >
-            VER PROJETO
+            {t.common.viewProject}
           </PixelButton>
         )}
         {project.links.github && (
           <PixelButton as="a" href={project.links.github} target="_blank" rel="noreferrer">
-            GITHUB
+            {t.common.github}
           </PixelButton>
         )}
       </div>

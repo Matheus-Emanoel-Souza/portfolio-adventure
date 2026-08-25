@@ -63,8 +63,22 @@ src/
                              # conteúdo, sem nada hardcoded na UI
   types/                    # tipos compartilhados
   hooks/                    # useLocalStorage, useReducedMotion, useDocumentTitle
+  i18n/                     # PT/EN — só texto de interface (ver abaixo)
   styles/                   # tokens.css (design tokens) + globals.css
 ```
+
+### Idioma (PT/EN)
+
+O switcher PT/EN (Home, HUD da aventura, header do Quick Mode) troca só o
+**texto de interface** — labels, botões, menus — definido em
+`src/i18n/pt.ts` e `src/i18n/en.ts`, com o formato garantido em
+`src/i18n/types.ts` (`en.ts` não compila se faltar alguma chave). Preferência
+persiste em `localStorage`.
+
+O **conteúdo** de `src/data/*.ts` (bio, projetos, timeline) continua numa
+língua só — a que você escrever — por decisão de escopo: traduzir cada
+projeto/quest exigiria manter tudo em `{pt, en}` e dobraria o trabalho de
+preencher o portfólio depois.
 
 ### Onde editar conteúdo
 

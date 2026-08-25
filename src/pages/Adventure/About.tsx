@@ -3,11 +3,13 @@ import { PixelPanel } from '@/components/PixelPanel/PixelPanel'
 import { profile } from '@/data/profile'
 import { useMarkSectionVisited } from '@/features/game-progress/useMarkSectionVisited'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
+import { useLanguage } from '@/i18n/useLanguage'
 import styles from './About.module.css'
 
 export default function About() {
   useDocumentTitle('Personagem')
   useMarkSectionVisited('about')
+  const { t } = useLanguage()
 
   return (
     <div className={styles.layout}>
@@ -21,14 +23,11 @@ export default function About() {
       </PixelPanel>
 
       <PixelPanel className={styles.card}>
-        <h3>Player Stats</h3>
+        <h3>{t.about.playerStats}</h3>
         {profile.bio ? (
           <p>{profile.bio}</p>
         ) : (
-          <EmptyState
-            title="Bio a preencher"
-            description="Adicione uma bio real em src/data/profile.ts."
-          />
+          <EmptyState title={t.about.bioEmptyTitle} description={t.about.bioEmptyDescription} />
         )}
 
         {profile.stats.length > 0 ? (
@@ -42,8 +41,8 @@ export default function About() {
           </div>
         ) : (
           <EmptyState
-            title="Stats a preencher"
-            description="Adicione Player Stats reais em src/data/profile.ts."
+            title={t.about.statsEmptyTitle}
+            description={t.about.statsEmptyDescription}
           />
         )}
       </PixelPanel>

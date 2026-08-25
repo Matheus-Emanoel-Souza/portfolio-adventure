@@ -1,11 +1,6 @@
 export type TimelineType = 'education' | 'experience' | 'project' | 'milestone'
 
-export const TIMELINE_TYPE_LABELS: Record<TimelineType, string> = {
-  education: 'Educação',
-  experience: 'Experiência',
-  project: 'Projeto',
-  milestone: 'Marco',
-}
+// Rótulos por tipo ficam no dicionário de i18n (src/i18n/*.ts).
 
 export interface TimelineEntry {
   id: string
