@@ -89,3 +89,9 @@
   flex-direction: column;
   gap: var(--space-2);
 }
+
+.primaryContactLink {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--color-secondary);
+}

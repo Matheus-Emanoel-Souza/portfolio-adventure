@@ -31,6 +31,7 @@ export default function Contact() {
               href={profile.social.github}
               target="_blank"
               rel="noreferrer"
+              variant="primary"
               aria-label={`${t.contact.openAria}: GitHub`}
             >
               {t.common.open}

@@ -79,7 +79,12 @@ export default function QuickMode() {
         <section className={styles.section}>
           <h2>{t.quickMode.contactHeading}</h2>
           <div className={styles.contactList}>
-            <a href={profile.social.github} target="_blank" rel="noreferrer">
+            <a
+              href={profile.social.github}
+              target="_blank"
+              rel="noreferrer"
+              className={styles.primaryContactLink}
+            >
               GitHub
             </a>
             <a href={`mailto:${profile.social.email}`}>{profile.social.email}</a>

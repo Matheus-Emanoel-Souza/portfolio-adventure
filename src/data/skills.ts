@@ -29,6 +29,24 @@ export const skills: Skill[] = [
     category: 'tools',
     summary: 'CI/CD deste repositório.',
   },
+  {
+    id: 'kanban',
+    name: 'Kanban',
+    category: 'tools',
+    summary: 'Gestão ágil de tarefas e fluxo de trabalho.',
+  },
+  {
+    id: 'documentation',
+    name: 'Documentação',
+    category: 'tools',
+    summary: 'Registro e organização de processos.',
+  },
+  {
+    id: 'proposal-writing',
+    name: 'Redação de Propostas',
+    category: 'tools',
+    summary: 'Comunicação técnica escrita.',
+  },
 ]
 
 export function getSkillById(id: string): Skill | undefined {
