@@ -4,9 +4,8 @@ import type { Project } from '@/types'
  * Quests reais, puxadas do GitHub (Matheus-Emanoel-Souza). Descrição,
  * problema/solução e status vêm do README de cada repo — nada inventado.
  *
- * Pendente: invaders-engine e Sistema_Rastreamento_Alvos_Arduino (TCC) não
- * foram encontrados como repositórios públicos ainda — entram assim que
- * existirem/forem confirmados.
+ * Pendente: invaders-engine — ainda privado/não encontrado como repositório
+ * público. Entra assim que existir/for confirmado.
  */
 export const projects: Project[] = [
   {
@@ -54,6 +53,23 @@ export const projects: Project[] = [
     links: {
       demo: 'https://matheus-emanoel-souza.github.io/LearnDeck/',
       github: 'https://github.com/Matheus-Emanoel-Souza/LearnDeck',
+    },
+    isPublicRepo: true,
+  },
+  {
+    id: 'radar-torres',
+    name: 'RadarTorres',
+    status: 'completed',
+    description:
+      'Sistema de detecção e seleção de torres — TCC em Engenharia da Computação. App desktop em C#/WPF que recebe leituras de sensores via Arduino (serial) e localiza alvos em um radar gráfico.',
+    problem:
+      'O TCC precisava demonstrar, de ponta a ponta, a localização de alvos ao redor de uma base e a seleção automática da torre demonstrativa mais adequada pra cada um — inclusive sem hardware conectado, pra viabilizar desenvolvimento contínuo e as apresentações.',
+    solution:
+      'App desktop em C#/WPF que recebe leituras (ângulo + distância) de um Arduino via serial, converte pra posição cartesiana num radar circular de quatro quadrantes, seleciona automaticamente a torre mais próxima/adequada e aciona um indicador demonstrativo (laser de baixa potência, LED ou simulação — nunca armamento real). Tem modo de simulação embutido, funcionando mesmo sem Arduino conectado.',
+    skillIds: ['csharp', 'dotnet', 'cpp', 'arduino'],
+    links: {
+      demo: 'https://github.com/Matheus-Emanoel-Souza/Sistema_Rastreamento_Alvos_Arduino/releases/latest',
+      github: 'https://github.com/Matheus-Emanoel-Souza/Sistema_Rastreamento_Alvos_Arduino',
     },
     isPublicRepo: true,
   },

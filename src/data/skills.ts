@@ -42,6 +42,12 @@ export const skills: Skill[] = [
   { id: 'cpp', name: 'C++', category: 'backend', summary: 'Linguagem de programação.' },
   { id: 'c', name: 'C', category: 'backend', summary: 'Linguagem de programação.' },
   {
+    id: 'arduino',
+    name: 'Arduino',
+    category: 'backend',
+    summary: 'Comunicação serial com sensores (TCC).',
+  },
+  {
     id: 'databases',
     name: 'Banco de Dados',
     category: 'database',
