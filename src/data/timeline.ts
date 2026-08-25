@@ -1,10 +1,15 @@
 import type { TimelineEntry } from '@/types'
 
-/**
- * Trajetória real, mais recente primeiro. Educação (UCL) pendente — curso e
- * período ainda não confirmados, não inventar aqui.
- */
+/** Trajetória real, mais recente primeiro. */
 export const timeline: TimelineEntry[] = [
+  {
+    id: 'ucl',
+    type: 'education',
+    title: 'Engenharia da Computação',
+    organization: 'UCL',
+    period: '9º período — 2026',
+    description: 'Graduação em andamento.',
+  },
   {
     id: 'oncovit',
     type: 'experience',
