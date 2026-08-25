@@ -1,0 +1,27 @@
+.tag {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  border: var(--border-width) solid currentColor;
+  text-transform: uppercase;
+}
+
+.completed {
+  color: var(--color-success);
+}
+
+.inProgress {
+  color: var(--color-warning);
+}
+
+.planned {
+  color: var(--color-planned);
+}
+
+.locked {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}

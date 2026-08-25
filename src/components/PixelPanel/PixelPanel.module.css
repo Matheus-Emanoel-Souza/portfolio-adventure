@@ -1,0 +1,15 @@
+.panel {
+  background: var(--color-panel);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-pixel);
+  padding: var(--space-6);
+}
+
+.raised {
+  background: var(--color-panel-raised);
+}
+
+.bordered {
+  border-color: var(--color-border-strong);
+}

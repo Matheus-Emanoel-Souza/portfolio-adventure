@@ -1,0 +1,63 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr 1.5fr;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.avatar {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--color-panel-raised);
+  border: var(--border-width) solid var(--color-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--color-primary);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.role {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-4);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.statLabel {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+}
+
+.statValue {
+  color: var(--color-text);
+}
