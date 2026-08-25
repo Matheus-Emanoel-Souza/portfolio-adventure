@@ -28,6 +28,7 @@ export const skills: Skill[] = [
     category: 'frontend',
     summary: 'Transições e microinterações.',
   },
+  { id: 'electron', name: 'Electron', category: 'frontend', summary: 'Usado no LearnDeck.' },
   { id: 'java', name: 'Java', category: 'backend', summary: 'Linguagem de programação.' },
   {
     id: 'spring-boot',
@@ -36,6 +37,7 @@ export const skills: Skill[] = [
     summary: 'Framework Java pra backend.',
   },
   { id: 'node', name: 'Node.js', category: 'backend', summary: 'Runtime JavaScript no servidor.' },
+  { id: 'dotnet', name: '.NET', category: 'backend', summary: 'Usado no Smart Taskbar (WPF).' },
   { id: 'csharp', name: 'C#', category: 'backend', summary: 'Linguagem de programação.' },
   { id: 'cpp', name: 'C++', category: 'backend', summary: 'Linguagem de programação.' },
   { id: 'c', name: 'C', category: 'backend', summary: 'Linguagem de programação.' },
