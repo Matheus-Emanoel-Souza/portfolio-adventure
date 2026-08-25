@@ -24,11 +24,16 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
+      # `npm ci` a partir de um package-lock.json gerado no Windows pode
+      # instalar o binário nativo errado do Rollup no runner Linux (bug
+      # conhecido do npm com optionalDependencies: nodejs/node#... /
+      # npm/cli#4828). `npm install` resolve o binário certo pra plataforma
+      # do runner.
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Lint
         run: npm run lint
