@@ -5,7 +5,7 @@ art / RPG retro-futurista. Funciona como uma pequena aventura navegável (mapa,
 quests, skill tree, conquistas) e, ao mesmo tempo, como um portfólio
 profissional direto ao ponto via **Quick Mode**, pensado pra recrutadores.
 
-Publicado no GitHub Pages: `https://matheus-emanoel-souza.github.io/portfolio-adventure/`
+🔗 **Teste ao vivo:** https://matheus-emanoel-souza.github.io/portfolio-adventure/
 
 ## Stack
 
