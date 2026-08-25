@@ -1,9 +1,9 @@
 import type { Profile } from '@/types'
 
 /**
- * Dados reais confirmados: nome, handle, e-mail e GitHub.
- * TODO: preencher bio, localização, stats e LinkedIn com informação real —
- * nunca inventar aqui. Enquanto vazio, a UI mostra estado "a preencher".
+ * Dados reais confirmados: nome, handle, e-mail, GitHub e LinkedIn.
+ * TODO: preencher bio, localização e stats com informação real — nunca
+ * inventar aqui. Enquanto vazio, a UI mostra estado "a preencher".
  */
 export const profile: Profile = {
   name: 'Matheus Emanoel Souza',
@@ -18,8 +18,7 @@ export const profile: Profile = {
   stats: [],
   social: {
     github: 'https://github.com/Matheus-Emanoel-Souza',
-    // TODO: adicionar URL do LinkedIn.
-    linkedin: undefined,
-    email: 'matheusemanoel@ucl.br',
+    linkedin: 'https://www.linkedin.com/in/matheus-emanoel-821241184',
+    email: 'matheusemanoelgomessouza@gmail.com',
   },
 }
