@@ -13,7 +13,7 @@ export default function AdventureMap() {
     { to: '/adventure/projects', ...t.adventureMap.locations.projects },
     { to: '/adventure/skills', ...t.adventureMap.locations.skills },
     { to: '/adventure/achievements', ...t.adventureMap.locations.achievements },
-    { to: '/adventure/quest-log', ...t.adventureMap.locations.questLog },
+    { to: '/adventure/career', ...t.adventureMap.locations.careerGraph },
     { to: '/adventure/contact', ...t.adventureMap.locations.contact },
   ]
 

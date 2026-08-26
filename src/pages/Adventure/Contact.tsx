@@ -1,10 +1,12 @@
 import { CopyButton } from '@/components/CopyButton/CopyButton'
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { PixelButton } from '@/components/PixelButton/PixelButton'
 import { PixelPanel } from '@/components/PixelPanel/PixelPanel'
 import { profile } from '@/data/profile'
 import { useMarkSectionVisited } from '@/features/game-progress/useMarkSectionVisited'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { useLanguage } from '@/i18n/useLanguage'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 import styles from './Contact.module.css'
 
 export default function Contact() {
@@ -80,6 +82,25 @@ export default function Contact() {
               </PixelButton>
             )}
           </div>
+
+          {profile.social.whatsapp && (
+            <div className={styles.channel}>
+              <div className={styles.channelLabel}>
+                <WhatsAppIcon className={styles.channelIcon} />
+                <span className={styles.channelName}>{t.contact.whatsappLabel}</span>
+              </div>
+              <PixelButton
+                as="a"
+                href={buildWhatsAppLink(profile.social.whatsapp)}
+                target="_blank"
+                rel="noreferrer"
+                variant="primary"
+                aria-label={`${t.contact.openAria}: WhatsApp`}
+              >
+                {t.common.open}
+              </PixelButton>
+            </div>
+          )}
         </div>
       </PixelPanel>
     </div>

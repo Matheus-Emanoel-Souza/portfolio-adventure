@@ -1,7 +1,15 @@
 # Handoff — Portfolio Adventure
 
-Estado do projeto em 2026-08-25. Pra quem (ou o "eu" futuro) continuar sem
+Estado do projeto em 2026-08-26. Pra quem (ou o "eu" futuro) continuar sem
 reler todo o histórico do chat.
+
+**Atualização 2026-08-26:** `data/timeline.ts` + página `QuestLog` foram
+substituídos por `data/career.ts` + `/adventure/career` (**Career Graph**) —
+trajetória desenhada como histórico Git (branches `career`/`education`
+compartilhando o mesmo eixo temporal vertical). Detalhes na seção "Career
+Graph" do README. Rota `quest-log` não existe mais; é `career` agora. Também
+foi adicionado um canal de WhatsApp em Contato (`profile.social.whatsapp`,
+`src/lib/whatsapp.ts`) com link "click to chat" pré-preenchido.
 
 ## O que é
 
@@ -24,13 +32,15 @@ src/
   App.tsx, routes/          # HashRouter + lazy pages por rota
   layouts/AdventureLayout    # HUD (level/XP, idioma) + nav do hub
   pages/Home, QuickMode, Adventure/{About,Projects,SkillTree,
-                             Achievements,QuestLog,Contact}
+                             Achievements,CareerGraph,Contact}
   components/                # PixelButton, PixelPanel, QuestCard, XPBar,
                              # CopyButton, LanguageSwitcher, EmptyState...
   features/game-progress/    # XP/level/achievements — lógica pura testável
                              # + Context (localStorage)
+  features/career-graph/     # Career Graph: layout puro + componentes —
+                             # única página fora da estética pixel art
   i18n/                      # PT/EN — só texto de interface (ver abaixo)
-  data/                      # profile/projects/skills/achievements/timeline
+  data/                      # profile/projects/skills/achievements/career
                              # — única fonte de conteúdo, tipada
   types/, hooks/, styles/
 ```
@@ -51,20 +61,24 @@ Decisões que importam pra manutenção:
   explícita — traduzir isso exigiria virar cada campo em `{pt, en}`.
 - **Achievements são determinísticos** (`data/achievements.ts` + regras em
   `features/game-progress/gameProgress.ts`) — nunca aleatórios. Hoje quase
-  tudo aparece bloqueado porque `projects.ts`/`timeline.ts` estão vazios.
+  quase tudo já desbloqueado agora que `projects.ts`/`career.ts` têm dado real.
 
 ## Conteúdo real já preenchido
 
 - `data/profile.ts`: nome, GitHub, e-mail pessoal
-  (`matheusemanoelgomessouza@gmail.com`), LinkedIn.
+  (`matheusemanoelgomessouza@gmail.com`), LinkedIn, WhatsApp.
 - `data/skills.ts`: só o que este próprio repo comprova (React, TS, Vite,
   CSS, Framer Motion, Git, GitHub Actions).
+- `data/career.ts`: 5 eventos reais — TechnipFMC, FIBRASA, OGMO-ES, Oncovit
+  (branch `career`) e UCL/Engenharia da Computação (branch `education`).
+- `data/projects.ts`: RadarTorres, Smart Taskbar, FaturamentoAnalytics,
+  LearnDeck.
 
 ## Pendente (TODO explícito no código)
 
-- `data/profile.ts`: bio, localização, Player Stats.
-- `data/projects.ts`: **vazio** — nenhuma quest cadastrada ainda.
-- `data/timeline.ts`: **vazio** — Quest Log sem trajetória ainda.
+- `data/profile.ts`: localização.
+- `data/career.ts`: `technologies` fica vazio até haver stack confirmada por
+  evento — não preencher por achismo.
 - Skills de backend/database/devops/arquitetura: vazias (só entram quando
   houver uso real e verificável).
 - Screenshots de projeto (campo opcional em `Project`).
@@ -85,8 +99,10 @@ lugar nenhum.
 ## Testes
 
 `src/App.test.tsx` — smoke tests: Home renderiza, navega pra Adventure Map,
-navega pro Quick Mode, troca idioma, copy button dá feedback. Rodar com
-`npm run test -- --run`.
+navega pro Quick Mode, troca idioma, copy button dá feedback, nav mostra
+Career Graph (não Quest Log), seleção de commit no Career Graph funciona.
+`src/features/career-graph/careerGraph.utils.test.ts` — lógica pura de
+layout. Rodar com `npm run test -- --run`.
 
 `src/test/setup.ts` tem mocks de `matchMedia` e `clipboard` — jsdom não
 implementa nenhum dos dois nativamente.

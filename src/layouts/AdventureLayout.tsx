@@ -20,7 +20,7 @@ export function AdventureLayout() {
     { to: '/adventure/projects', label: t.nav.quests },
     { to: '/adventure/skills', label: t.nav.skillTree },
     { to: '/adventure/achievements', label: t.nav.achievements },
-    { to: '/adventure/quest-log', label: t.nav.questLog },
+    { to: '/adventure/career', label: t.nav.careerGraph },
     { to: '/adventure/contact', label: t.nav.contact },
   ]
 

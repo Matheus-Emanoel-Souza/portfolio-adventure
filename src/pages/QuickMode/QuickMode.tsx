@@ -1,12 +1,16 @@
 import { Link } from 'react-router-dom'
 import { EmptyState } from '@/components/EmptyState/EmptyState'
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher/LanguageSwitcher'
 import { QuestCard } from '@/components/QuestCard/QuestCard'
+import { careerEvents } from '@/data/career'
 import { profile } from '@/data/profile'
 import { projects } from '@/data/projects'
 import { skills } from '@/data/skills'
+import { layoutCareerEvents } from '@/features/career-graph/careerGraph.utils'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { useLanguage } from '@/i18n/useLanguage'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 import { SKILL_CATEGORIES } from '@/types'
 import styles from './QuickMode.module.css'
 
@@ -18,6 +22,7 @@ import styles from './QuickMode.module.css'
 export default function QuickMode() {
   useDocumentTitle('Quick Mode')
   const { t } = useLanguage()
+  const orderedCareerEvents = layoutCareerEvents(careerEvents)
 
   return (
     <div className={styles.page}>
@@ -77,6 +82,26 @@ export default function QuickMode() {
         </section>
 
         <section className={styles.section}>
+          <h2>{t.quickMode.careerHeading}</h2>
+          <ul className={styles.careerList}>
+            {orderedCareerEvents.map((event) => (
+              <li key={event.id} className={styles.careerItem}>
+                <div className={styles.careerItemHeader}>
+                  <strong>{event.title}</strong>
+                  {event.current && (
+                    <span className={styles.careerCurrentBadge}>
+                      {t.quickMode.careerCurrentBadge}
+                    </span>
+                  )}
+                </div>
+                {event.organization && <p className={styles.careerOrg}>{event.organization}</p>}
+                <p className={styles.careerPeriod}>{event.period}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className={styles.section}>
           <h2>{t.quickMode.contactHeading}</h2>
           <div className={styles.contactList}>
             <a
@@ -91,6 +116,17 @@ export default function QuickMode() {
             {profile.social.linkedin && (
               <a href={profile.social.linkedin} target="_blank" rel="noreferrer">
                 LinkedIn
+              </a>
+            )}
+            {profile.social.whatsapp && (
+              <a
+                href={buildWhatsAppLink(profile.social.whatsapp)}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.whatsappLink}
+              >
+                <WhatsAppIcon className={styles.whatsappIcon} />
+                WhatsApp
               </a>
             )}
           </div>

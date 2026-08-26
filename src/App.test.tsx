@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
 import App from './App'
@@ -75,5 +75,36 @@ describe('App', () => {
     // A cópia em si passa pela Clipboard API do navegador (userEvent tem seu
     // próprio stub em teste) — o que importa verificar é o feedback visual.
     expect(await screen.findByRole('button', { name: /e-mail copiado/i })).toBeInTheDocument()
+  })
+
+  it('replaces the old Quest Log with the Career Graph in navigation', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.click(await screen.findByRole('link', { name: /iniciar aventura/i }, LAZY_TIMEOUT))
+    await screen.findByRole('heading', { name: /mapa da aventura/i }, LAZY_TIMEOUT)
+
+    const nav = screen.getByRole('navigation')
+    expect(within(nav).getByRole('link', { name: 'CAREER GRAPH' })).toBeInTheDocument()
+    expect(screen.queryByText(/quest log/i)).not.toBeInTheDocument()
+  })
+
+  it('shows both branches and lets a commit be selected on the Career Graph', async () => {
+    const user = userEvent.setup()
+    window.location.hash = '#/adventure/career'
+    render(<App />)
+
+    expect(
+      await screen.findByRole('heading', { name: 'Career Graph' }, LAZY_TIMEOUT),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'CAREER' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'EDUCATION' })).toBeInTheDocument()
+
+    const fibrasaCommit = screen.getByRole('button', { name: /estagiário de engenharia de processos/i })
+    await user.click(fibrasaCommit)
+
+    const detailCard = screen.getByRole('complementary')
+    expect(detailCard).toHaveTextContent('FIBRASA S.A.')
+    expect(detailCard).toHaveTextContent('Junho de 2022')
   })
 })

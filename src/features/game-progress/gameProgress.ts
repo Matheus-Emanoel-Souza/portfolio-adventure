@@ -1,7 +1,7 @@
 import { achievements } from '@/data/achievements'
+import { careerEvents } from '@/data/career'
 import { projects } from '@/data/projects'
 import { skills } from '@/data/skills'
-import { timeline } from '@/data/timeline'
 import type { Achievement, AchievementContext } from '@/types'
 
 /** Lógica pura, sem React — fácil de testar isoladamente. */
@@ -12,7 +12,7 @@ export function buildAchievementContext(): AchievementContext {
     inProgressProjectsCount: projects.filter((p) => p.status === 'in-progress').length,
     publicRepoProjectsCount: projects.filter((p) => p.isPublicRepo).length,
     skillCategoriesCovered: Array.from(new Set(skills.map((s) => s.category))),
-    timelineEntriesCount: timeline.length,
+    careerEventsCount: careerEvents.length,
   }
 }
 
@@ -31,7 +31,7 @@ export function resolveAchievements(context: AchievementContext): AchievementSta
 const XP_PER_COMPLETED_PROJECT = 100
 const XP_PER_IN_PROGRESS_PROJECT = 40
 const XP_PER_UNLOCKED_ACHIEVEMENT = 50
-const XP_PER_TIMELINE_ENTRY = 20
+const XP_PER_CAREER_EVENT = 20
 const XP_PER_LEVEL = 150
 
 export interface GameStats {
@@ -49,7 +49,7 @@ export function computeGameStats(
     context.completedProjectsCount * XP_PER_COMPLETED_PROJECT +
     context.inProgressProjectsCount * XP_PER_IN_PROGRESS_PROJECT +
     unlockedAchievementsCount * XP_PER_UNLOCKED_ACHIEVEMENT +
-    context.timelineEntriesCount * XP_PER_TIMELINE_ENTRY
+    context.careerEventsCount * XP_PER_CAREER_EVENT
 
   const level = Math.floor(xp / XP_PER_LEVEL) + 1
   const xpIntoLevel = xp % XP_PER_LEVEL
@@ -63,7 +63,7 @@ export const ADVENTURE_SECTIONS = [
   'projects',
   'skills',
   'achievements',
-  'quest-log',
+  'career',
   'contact',
 ] as const
 

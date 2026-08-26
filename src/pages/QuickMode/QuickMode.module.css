@@ -84,6 +84,47 @@
   gap: var(--space-4);
 }
 
+.careerList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.careerItem {
+  border-left: var(--border-width) solid var(--color-border);
+  padding-left: var(--space-4);
+}
+
+.careerItemHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.careerCurrentBadge {
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  color: var(--color-text-inverted);
+  background: var(--color-success);
+  padding: 0.15rem 0.4rem;
+  border-radius: var(--radius-sm);
+}
+
+.careerOrg {
+  color: var(--color-text-muted);
+  margin: var(--space-1) 0 0;
+}
+
+.careerPeriod {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin: var(--space-1) 0 0;
+}
+
 .contactList {
   display: flex;
   flex-direction: column;
@@ -94,4 +135,18 @@
   font-family: var(--font-display);
   font-size: 0.85rem;
   color: var(--color-secondary);
+}
+
+.whatsappLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: fit-content;
+}
+
+.whatsappIcon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-success);
+  flex-shrink: 0;
 }

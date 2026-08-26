@@ -1,0 +1,391 @@
+/**
+ * Career Graph — única página do site com identidade fora do pixel art:
+ * dev tool / Git client. Monospace, painéis discretos, cantos quase retos.
+ * Reusa design tokens (styles/tokens.css), não inventa cores novas.
+ */
+:root {
+  --career-row-height: 112px;
+}
+
+.page {
+  font-family: var(--font-mono);
+}
+
+/* ---------- Header ---------- */
+
+.header {
+  background: var(--color-panel);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+}
+
+.repoPath {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-2);
+}
+
+.heading {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  margin: 0 0 var(--space-2);
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.branchCount {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.15rem 0.5rem;
+}
+
+.legend {
+  display: flex;
+  gap: var(--space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.headLine {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.85rem;
+}
+
+.headLine code {
+  color: var(--color-text-muted);
+}
+
+.headTitle {
+  color: var(--color-text);
+}
+
+.badgeHead,
+.badgeCurrent {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.4rem;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.badgeHead {
+  background: var(--color-accent);
+  color: var(--color-text-inverted);
+}
+
+.badgeCurrent {
+  background: var(--color-success);
+  color: var(--color-text-inverted);
+}
+
+/* ---------- Filters ---------- */
+
+.filters {
+  display: flex;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
+}
+
+.filterButton {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.filterButton:hover {
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+
+.filterButtonActive {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background: var(--color-panel-raised);
+}
+
+/* ---------- Layout: graph + detail card ---------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr 20rem;
+  }
+}
+
+.graph {
+  display: flex;
+  gap: var(--space-4);
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.track {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.node {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.nodeSelected {
+  box-shadow: 0 0 0 4px var(--color-panel-raised);
+}
+
+.nodeHead {
+  width: 16px;
+  height: 16px;
+}
+
+.gutterYear {
+  position: absolute;
+  left: 0;
+  transform: translateY(-50%);
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  text-align: left;
+}
+
+/* ---------- Commit list ---------- */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.row {
+  min-height: var(--career-row-height);
+  display: flex;
+  align-items: center;
+}
+
+.rowButton {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-3);
+  cursor: pointer;
+  color: var(--color-text);
+  transition: var(--transition-fast);
+}
+
+.rowButton:hover {
+  background: var(--color-panel);
+}
+
+.rowButtonSelected {
+  background: var(--color-panel);
+  border-color: var(--color-border);
+}
+
+.rowDimmed {
+  opacity: 0.4;
+}
+
+.rowSummary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.rowCommitType {
+  font-family: var(--font-mono);
+  color: var(--color-primary-dim);
+  font-size: 0.85rem;
+}
+
+.rowTitle {
+  font-weight: 600;
+}
+
+.rowMeta {
+  display: flex;
+  gap: var(--space-2);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  flex-wrap: wrap;
+}
+
+.rowPeriod::before {
+  content: '· ';
+}
+
+/* ---------- Detail card ---------- */
+
+.card {
+  background: var(--color-panel);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  font-size: 0.85rem;
+}
+
+@media (min-width: 900px) {
+  .card {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-4));
+  }
+}
+
+.cardHint {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.cardHash {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-3);
+}
+
+.cardHash span {
+  color: var(--color-primary);
+}
+
+.cardCommitLine {
+  margin: 0 0 var(--space-2);
+}
+
+.cardCommitLine code {
+  color: var(--color-primary-dim);
+}
+
+.cardOrg {
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-4);
+}
+
+.cardFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cardFields dt {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin: 0 0 0.25rem;
+}
+
+.cardFields dd {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.cardSection {
+  margin: 0 0 var(--space-4);
+}
+
+.cardSection:last-child {
+  margin-bottom: 0;
+}
+
+.cardSectionLabel {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-2);
+}
+
+.techList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.techList li {
+  font-size: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.5rem;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: var(--space-4);
+  }
+
+  .card {
+    padding: var(--space-4);
+  }
+}

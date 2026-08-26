@@ -31,7 +31,7 @@ export function AppRoutes() {
         <Route path="projects" element={<Pages.Projects />} />
         <Route path="skills" element={<Pages.SkillTree />} />
         <Route path="achievements" element={<Pages.Achievements />} />
-        <Route path="quest-log" element={<Pages.QuestLog />} />
+        <Route path="career" element={<Pages.CareerGraph />} />
         <Route path="contact" element={<Pages.Contact />} />
       </Route>
 

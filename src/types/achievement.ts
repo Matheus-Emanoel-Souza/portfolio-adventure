@@ -6,7 +6,7 @@ export interface AchievementContext {
   publicRepoProjectsCount: number
   /** Categorias de skill com pelo menos uma entrada cadastrada. */
   skillCategoriesCovered: SkillCategory[]
-  timelineEntriesCount: number
+  careerEventsCount: number
 }
 
 export interface Achievement {

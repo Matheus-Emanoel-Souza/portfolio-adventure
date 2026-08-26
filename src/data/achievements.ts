@@ -1,7 +1,7 @@
 import type { Achievement } from '@/types'
 
 /**
- * Regras determinísticas a partir dos dados reais (projects/skills/timeline).
+ * Regras determinísticas a partir dos dados reais (projects/skills/career).
  * Nada de `Math.random()` ou desbloqueio por tempo de sessão — se aparece
  * desbloqueado, é porque o dado que sustenta a conquista existe de fato.
  */

@@ -28,7 +28,7 @@ export interface Dictionary {
     quests: string
     skillTree: string
     achievements: string
-    questLog: string
+    careerGraph: string
     contact: string
   }
   hud: { sectionsExplored: string }
@@ -37,6 +37,8 @@ export interface Dictionary {
     viewAdventure: string
     skillsHeading: string
     projectsHeading: string
+    careerHeading: string
+    careerCurrentBadge: string
     contactHeading: string
     projectsEmptyTitle: string
     projectsEmptyDescription: string
@@ -49,7 +51,7 @@ export interface Dictionary {
       projects: { title: string; description: string }
       skills: { title: string; description: string }
       achievements: { title: string; description: string }
-      questLog: { title: string; description: string }
+      careerGraph: { title: string; description: string }
       contact: { title: string; description: string }
     }
   }
@@ -80,11 +82,35 @@ export interface Dictionary {
     unlockedLabel: string
     lockedLabel: string
   }
-  questLog: {
+  careerGraph: {
     heading: string
     subtitle: string
-    emptyTitle: string
-    emptyDescription: string
+    repoLabel: string
+    branchesLabel: string
+    headBadge: string
+    currentBadge: string
+    filterAll: string
+    filterCareer: string
+    filterEducation: string
+    filterGroupAria: string
+    branchCareer: string
+    branchEducation: string
+    commitDetailsHeading: string
+    branchFieldLabel: string
+    periodFieldLabel: string
+    technologiesFieldLabel: string
+    descriptionFieldLabel: string
+    emptyBranch: string
+    selectHint: string
+    selectedAria: string
+  }
+  commitType: {
+    init: string
+    feat: string
+    refactor: string
+    milestone: string
+    study: string
+    cert: string
   }
   contact: {
     heading: string
@@ -94,6 +120,7 @@ export interface Dictionary {
     emailLabel: string
     linkedinLabel: string
     linkedinEmptyNote: string
+    whatsappLabel: string
     openAria: string
     sendAria: string
     copyEmailAria: string
@@ -108,11 +135,5 @@ export interface Dictionary {
     devops: string
     tools: string
     architecture: string
-  }
-  timelineType: {
-    education: string
-    experience: string
-    project: string
-    milestone: string
   }
 }

@@ -22,5 +22,6 @@ export const profile: Profile = {
     github: 'https://github.com/Matheus-Emanoel-Souza',
     linkedin: 'https://www.linkedin.com/in/matheus-emanoel-821241184',
     email: 'matheusemanoelgomessouza@gmail.com',
+    whatsapp: '5527995038630',
   },
 }
