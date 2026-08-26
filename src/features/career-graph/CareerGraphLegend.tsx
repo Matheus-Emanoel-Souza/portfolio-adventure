@@ -13,8 +13,7 @@ export function CareerGraphLegend({ t }: { t: Dictionary }) {
             style={{ background: BRANCH_META[branch].colorVar }}
             aria-hidden="true"
           />
-          {/* TODO: uma branch nova precisa de um rótulo aqui — t.careerGraph só cobre career/education hoje. */}
-          {branch === 'career' ? t.careerGraph.branchCareer : t.careerGraph.branchEducation}
+          {t.careerGraph[BRANCH_META[branch].labelKey]}
         </li>
       ))}
     </ul>

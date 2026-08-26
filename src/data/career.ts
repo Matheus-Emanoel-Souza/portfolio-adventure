@@ -2,10 +2,24 @@ import type { CareerEvent } from '@/types'
 
 /**
  * Trajetória real — cada entrada é um "commit" no Career Graph
- * (src/features/career-graph). `branch` separa profissional (`career`) de
- * acadêmico/formação (`education`); `sortDate` ("YYYY-MM") é só pra ordenar
- * no eixo temporal compartilhado entre as duas branches — o texto exibido é
+ * (src/features/career-graph). `branch` separa profissional (`career`), de
+ * formação acadêmica formal e longa (`education`) e de cursos/treinamentos/
+ * certificações menores (`courses`); `sortDate` ("YYYY-MM") é só pra ordenar
+ * no eixo temporal compartilhado entre as três branches — o texto exibido é
  * sempre `period`, como já escrito abaixo. Nunca inventar entradas aqui.
+ *
+ * Curso individual (branch `courses`, quando for relevante o bastante pra
+ * ter commit próprio):
+ * { id: 'curso-x', branch: 'courses', commitType: 'course', title: 'Nome do curso',
+ *   organization: 'Plataforma/Instituição', sortDate: 'YYYY-MM', period: '...',
+ *   description: '...' }
+ *
+ * Trilha agrupada (vários cursos pequenos relacionados num único commit, pra
+ * não poluir o graph): mesma forma acima + `items: ['Curso 1', 'Curso 2', ...]`.
+ *
+ * Nenhum evento de `courses` foi adicionado ainda — a branch existe na
+ * arquitetura (tipos, cores, filtro, legenda), pronta pra receber cursos
+ * reais quando você quiser cadastrar.
  */
 export const careerEvents: CareerEvent[] = [
   {

@@ -5,11 +5,22 @@ reler todo o histórico do chat.
 
 **Atualização 2026-08-26:** `data/timeline.ts` + página `QuestLog` foram
 substituídos por `data/career.ts` + `/adventure/career` (**Career Graph**) —
-trajetória desenhada como histórico Git (branches `career`/`education`
-compartilhando o mesmo eixo temporal vertical). Detalhes na seção "Career
-Graph" do README. Rota `quest-log` não existe mais; é `career` agora. Também
-foi adicionado um canal de WhatsApp em Contato (`profile.social.whatsapp`,
+trajetória desenhada como histórico Git (branches compartilhando o mesmo
+eixo temporal vertical). Detalhes na seção "Career Graph" do README. Rota
+`quest-log` não existe mais; é `career` agora. Também foi adicionado um
+canal de WhatsApp em Contato (`profile.social.whatsapp`,
 `src/lib/whatsapp.ts`) com link "click to chat" pré-preenchido.
+
+**Atualização 2026-08-26 (2):** Career Graph ganhou uma terceira branch,
+`courses` (cursos/bootcamps/certificações menores — diferente de `education`,
+que é formação formal e longa: graduação, técnico). Sem eventos reais
+cadastrados ainda — só a arquitetura (tipo, cor, filtro `COURSES`, legenda)
+já pronta. `CareerEvent` ganhou `items?: string[]` opcional pra agrupar
+vários cursos pequenos relacionados num único commit ("trilha"), em vez de
+um commit por curso. `BRANCH_META` (`careerGraph.config.ts`) agora carrega
+também a chave de i18n de cada branch (`labelKey`/`filterLabelKey`) — Legend
+e Filters passaram a ler daí em vez de `if (branch === 'career') ...`, então
+adicionar uma quarta branch não exige mexer nesses componentes.
 
 ## O que é
 

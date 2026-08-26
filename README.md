@@ -97,7 +97,7 @@ Todo o conteúdo real fica em `src/data/*.ts`, tipado e separado da UI:
 | `data/profile.ts`        | bio, localização, Player Stats, LinkedIn                  |
 | `data/projects.ts`       | quests reais (nome, status, problema/solução, links, `skillIds`) |
 | `data/skills.ts`         | tecnologias por categoria (frontend/backend/db/devops/tools/arquitetura) |
-| `data/career.ts`         | Career Graph — experiências (`branch: 'career'`) e formação (`branch: 'education'`) |
+| `data/career.ts`         | Career Graph — experiências (`branch: 'career'`), formação formal (`branch: 'education'`) e cursos/certificações (`branch: 'courses'`) |
 | `data/achievements.ts`   | regras de desbloqueio (todas determinísticas, a partir dos dados acima) |
 
 Os arquivos já têm comentários `TODO` nos campos que só devem ser preenchidos
@@ -106,24 +106,32 @@ com informação real — nada de conteúdo fictício foi adicionado.
 ## Career Graph
 
 `/adventure/career` representa a trajetória como um "repositório": cada
-experiência/formação é um `CareerEvent` (`src/types/career.ts`) numa branch —
-hoje `career` (emprego/estágio) ou `education` (graduação/curso/certificação).
+experiência/formação/curso é um `CareerEvent` (`src/types/career.ts`) numa
+branch — `career` (emprego/estágio), `education` (graduação/curso técnico —
+formação formal e longa) ou `courses` (curso online, bootcamp, certificação
+menor, estudo pontual — mais curto/avulso que `education`).
 
-**Adicionar uma experiência ou formação nova:** acrescente um objeto em
-`src/data/career.ts` com `branch`, `commitType` (`init`/`feat`/`refactor`/
-`milestone`/`study`/`cert` — estilo Conventional Commits), `title`,
-`organization`, `sortDate` ("YYYY-MM", só pra ordenar no eixo temporal),
-`period` (texto livre exibido, ex. "Julho de 2025 — atual"), `current`
-(opcional) e `description`. `technologies` fica disponível pra quando houver
-stack confirmada pra listar — nunca preencher com achismo.
+**Adicionar uma experiência, formação ou curso novo:** acrescente um objeto
+em `src/data/career.ts` com `branch`, `commitType` (`init`/`feat`/
+`refactor`/`milestone`/`study`/`cert`/`course` — estilo Conventional
+Commits), `title`, `organization`, `sortDate` ("YYYY-MM", só pra ordenar no
+eixo temporal), `period` (texto livre exibido, ex. "Julho de 2025 — atual"),
+`current` (opcional) e `description`. `technologies` fica disponível pra
+quando houver stack confirmada pra listar — nunca preencher com achismo.
+
+**Trilha agrupada de cursos:** quando vários cursos pequenos relacionados
+não justificam um commit cada (poluiria o graph), agrupe-os num único
+`CareerEvent` da branch `courses` usando `items: string[]` — a lista aparece
+inteira no card de detalhes ao selecionar aquele commit. Um curso isolado
+relevante o bastante pode continuar como commit próprio, sem `items`.
 
 **Como o graph é montado** (`src/features/career-graph/`):
 
 - `careerGraph.utils.ts` — lógica pura, testada isoladamente
   (`careerGraph.utils.test.ts`): `layoutCareerEvents` ordena todos os eventos
-  (das duas branches juntas) por `sortDate` decrescente e atribui uma linha
-  (`row`) sequencial — é isso que faz `career`/`education` compartilharem o
-  mesmo eixo vertical, em vez de duas timelines independentes.
+  (das três branches juntas) por `sortDate` decrescente e atribui uma linha
+  (`row`) sequencial — é isso que faz `career`/`education`/`courses`
+  compartilharem o mesmo eixo vertical, em vez de timelines independentes.
   `buildBranchLanes` calcula onde cada branch começa/termina;
   `buildYearGutter` decide em qual linha mostrar cada rótulo de ano;
   `findHeadEvent` acha o cargo atual (`current: true` na branch `career`) pro
@@ -132,24 +140,28 @@ stack confirmada pra listar — nunca preencher com achismo.
   `id` do evento, nunca `Math.random()`. O mesmo evento sempre mostra o
   mesmo hash curto.
 - `careerGraph.config.ts` — geometria compartilhada entre o SVG (linhas das
-  branches) e o layout HTML (linhas de conteúdo), e o `BRANCH_META` (cor +
-  ordem de cada branch).
+  branches) e o layout HTML (linhas de conteúdo), e o `BRANCH_META` (cor,
+  ordem e chaves de i18n de cada branch — é o único lugar que sabe quantas
+  branches existem; nenhum componente tem `if branch === 'career' ...`
+  espalhado).
 - Componentes (`CareerGraph`, `CareerGraphHeader`, `CareerGraphFilters`,
   `CareerGraphPaths`, `CareerGraphNode`, `CareerGraphRow`,
   `CareerCommitCard`, `CareerGraphLegend`) — cada um com uma responsabilidade
-  só; a seleção de commit e o filtro de branch (all/career/education, por
-  destaque/dimming, não remoção) vivem em `CareerGraph.tsx`.
+  só; a seleção de commit e o filtro de branch (all/career/education/courses,
+  por destaque/dimming, não remoção) vivem em `CareerGraph.tsx`.
 
 **Adicionar uma branch nova** (ex. `projects`): estender a union
 `CareerBranch` em `src/types/career.ts`, adicionar uma entrada em
-`BRANCH_META` (`careerGraph.config.ts`) com cor/ordem, e incluir eventos com
-esse `branch` em `data/career.ts`. O layout (`layoutCareerEvents`,
-`buildBranchLanes`) já itera as branches presentes nos dados — nada
-hardcoded pra exatamente duas.
+`BRANCH_META` (`careerGraph.config.ts`) com cor/ordem/chaves de i18n (+ as
+chaves correspondentes em `t.careerGraph` nos dois dicionários), e incluir
+eventos com esse `branch` em `data/career.ts`. O layout (`layoutCareerEvents`,
+`buildBranchLanes`), o SVG e a legenda/filtros já iteram as branches
+presentes em `BRANCH_META`/dados — nada hardcoded pra um número fixo.
 
 `Quick Mode` (`/quick`) reusa a mesma `data/career.ts` (via
-`layoutCareerEvents`) numa lista simples, sem o graph — uma única fonte de
-conteúdo pras duas visões.
+`layoutCareerEvents`) numa lista simples, sem o graph, filtrando fora a
+branch `courses` (cursos avulsos poluiriam a leitura rápida de
+recrutador) — uma única fonte de conteúdo pras duas visões.
 
 ## Gamificação
 

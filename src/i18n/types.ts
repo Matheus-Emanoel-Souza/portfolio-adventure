@@ -92,13 +92,16 @@ export interface Dictionary {
     filterAll: string
     filterCareer: string
     filterEducation: string
+    filterCourses: string
     filterGroupAria: string
     branchCareer: string
     branchEducation: string
+    branchCourses: string
     commitDetailsHeading: string
     branchFieldLabel: string
     periodFieldLabel: string
     technologiesFieldLabel: string
+    itemsFieldLabel: string
     descriptionFieldLabel: string
     emptyBranch: string
     selectHint: string
@@ -111,6 +114,7 @@ export interface Dictionary {
     milestone: string
     study: string
     cert: string
+    course: string
   }
   contact: {
     heading: string

@@ -22,7 +22,13 @@ import styles from './QuickMode.module.css'
 export default function QuickMode() {
   useDocumentTitle('Quick Mode')
   const { t } = useLanguage()
-  const orderedCareerEvents = layoutCareerEvents(careerEvents)
+  // Quick Mode mostra só career/education (marcos maiores) — cursos avulsos
+  // poluiriam a leitura rápida de recrutador. Mesma fonte de dados do Career
+  // Graph, só filtrada; quando houver cursos reais cadastrados, uma seção
+  // "Cursos" separada pode entrar aqui sem misturar com graduação/estágios.
+  const orderedCareerEvents = layoutCareerEvents(
+    careerEvents.filter((event) => event.branch !== 'courses'),
+  )
 
   return (
     <div className={styles.page}>

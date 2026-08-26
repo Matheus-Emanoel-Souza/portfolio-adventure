@@ -51,7 +51,7 @@ export function CareerCommitCard({ event, t, isHead }: CareerCommitCardProps) {
                     style={{ background: BRANCH_META[event.branch].colorVar }}
                     aria-hidden="true"
                   />
-                  {event.branch === 'career' ? t.careerGraph.branchCareer : t.careerGraph.branchEducation}
+                  {t.careerGraph[BRANCH_META[event.branch].labelKey]}
                 </dd>
               </div>
               <div>
@@ -71,6 +71,17 @@ export function CareerCommitCard({ event, t, isHead }: CareerCommitCardProps) {
                 <ul className={styles.techList}>
                   {event.technologies.map((tech) => (
                     <li key={tech}>{tech}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {event.items && event.items.length > 0 && (
+              <div className={styles.cardSection}>
+                <p className={styles.cardSectionLabel}>{t.careerGraph.itemsFieldLabel}</p>
+                <ul className={styles.itemsList}>
+                  {event.items.map((item) => (
+                    <li key={item}>{item}</li>
                   ))}
                 </ul>
               </div>

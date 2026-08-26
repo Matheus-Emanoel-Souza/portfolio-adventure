@@ -89,7 +89,7 @@ describe('App', () => {
     expect(screen.queryByText(/quest log/i)).not.toBeInTheDocument()
   })
 
-  it('shows both branches and lets a commit be selected on the Career Graph', async () => {
+  it('shows all three branches and lets a commit be selected on the Career Graph', async () => {
     const user = userEvent.setup()
     window.location.hash = '#/adventure/career'
     render(<App />)
@@ -99,6 +99,9 @@ describe('App', () => {
     ).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'CAREER' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'EDUCATION' })).toBeInTheDocument()
+    // Branch courses ainda sem eventos reais cadastrados — filtro/legenda já
+    // existem (arquitetura pronta), só não há commit pra selecionar ainda.
+    expect(screen.getByRole('button', { name: 'COURSES' })).toBeInTheDocument()
 
     const fibrasaCommit = screen.getByRole('button', { name: /estagiário de engenharia de processos/i })
     await user.click(fibrasaCommit)

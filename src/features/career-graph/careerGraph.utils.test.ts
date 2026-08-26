@@ -32,6 +32,17 @@ const events: CareerEvent[] = [
     description: 'ERP Sankhya.',
   },
   {
+    id: 'react-track',
+    branch: 'courses',
+    commitType: 'course',
+    title: 'Trilha React',
+    organization: 'Plataforma X',
+    sortDate: '2024-01',
+    period: '2024',
+    description: 'Trilha de cursos curtos sobre React.',
+    items: ['React Fundamentals', 'React Hooks'],
+  },
+  {
     id: 'fibrasa',
     branch: 'career',
     commitType: 'feat',
@@ -44,14 +55,20 @@ const events: CareerEvent[] = [
 ]
 
 describe('layoutCareerEvents', () => {
-  it('orders events most recent first, across branches', () => {
+  it('orders events most recent first, across all three branches', () => {
     const layouted = layoutCareerEvents(events)
-    expect(layouted.map((event) => event.id)).toEqual(['ucl', 'oncovit', 'fibrasa'])
+    expect(layouted.map((event) => event.id)).toEqual(['ucl', 'oncovit', 'react-track', 'fibrasa'])
   })
 
   it('assigns a monotonically increasing row starting at 0', () => {
     const layouted = layoutCareerEvents(events)
-    expect(layouted.map((event) => event.row)).toEqual([0, 1, 2])
+    expect(layouted.map((event) => event.row)).toEqual([0, 1, 2, 3])
+  })
+
+  it('keeps a grouped track event with its `items` intact', () => {
+    const layouted = layoutCareerEvents(events)
+    const track = layouted.find((event) => event.id === 'react-track')
+    expect(track?.items).toEqual(['React Fundamentals', 'React Hooks'])
   })
 
   it('attaches a deterministic hash to every event', () => {
@@ -77,20 +94,22 @@ describe('shortHash', () => {
 })
 
 describe('buildBranchLanes', () => {
-  it('computes the top/bottom row span per branch', () => {
+  it('computes the top/bottom row span per branch, including courses', () => {
     const lanes = buildBranchLanes(layoutCareerEvents(events))
     const career = lanes.find((lane) => lane.branch === 'career')
     const education = lanes.find((lane) => lane.branch === 'education')
+    const courses = lanes.find((lane) => lane.branch === 'courses')
 
-    expect(career).toEqual({ branch: 'career', topRow: 1, bottomRow: 2 })
+    expect(career).toEqual({ branch: 'career', topRow: 1, bottomRow: 3 })
     expect(education).toEqual({ branch: 'education', topRow: 0, bottomRow: 0 })
+    expect(courses).toEqual({ branch: 'courses', topRow: 2, bottomRow: 2 })
   })
 })
 
 describe('buildYearGutter', () => {
   it('labels only the first row of each year', () => {
     const gutter = buildYearGutter(layoutCareerEvents(events))
-    expect(Object.fromEntries(gutter)).toEqual({ 0: 2026, 1: 2025, 2: 2022 })
+    expect(Object.fromEntries(gutter)).toEqual({ 0: 2026, 1: 2025, 2: 2024, 3: 2022 })
   })
 })
 

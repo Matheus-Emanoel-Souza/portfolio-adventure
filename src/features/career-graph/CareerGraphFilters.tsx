@@ -1,4 +1,5 @@
 import type { Dictionary } from '@/i18n/types'
+import { BRANCH_META, BRANCH_ORDER } from './careerGraph.config'
 import type { BranchFilter } from './careerGraph.types'
 import styles from './CareerGraph.module.css'
 
@@ -10,13 +11,16 @@ interface CareerGraphFiltersProps {
 
 /**
  * Alterna destaque entre branches (dimming), não remove do DOM — mantém o
- * eixo temporal compartilhado visível mesmo com um filtro ativo.
+ * eixo temporal compartilhado visível mesmo com um filtro ativo. Opções
+ * geradas a partir de BRANCH_ORDER — uma branch nova ganha filtro sozinha.
  */
 export function CareerGraphFilters({ t, filter, onChange }: CareerGraphFiltersProps) {
   const options: { value: BranchFilter; label: string }[] = [
     { value: 'all', label: t.careerGraph.filterAll },
-    { value: 'career', label: t.careerGraph.filterCareer },
-    { value: 'education', label: t.careerGraph.filterEducation },
+    ...BRANCH_ORDER.map((branch) => ({
+      value: branch,
+      label: t.careerGraph[BRANCH_META[branch].filterLabelKey],
+    })),
   ]
 
   return (
