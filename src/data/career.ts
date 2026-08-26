@@ -14,7 +14,10 @@ export const careerEvents: CareerEvent[] = [
     commitType: 'feat',
     title: 'Engenharia da Computação',
     organization: 'UCL',
-    sortDate: '2021-01',
+    // sortDate = presente (não 2021, quando começou) de propósito: cursado
+    // em paralelo aos estágios, o commit fica no topo — junto do estágio
+    // atual — pra deixar visível que os dois aconteceram ao mesmo tempo.
+    sortDate: '2026-01',
     period: '2021 — atual · 9º período em 2026',
     current: true,
     description: 'Graduação em andamento.',
@@ -70,7 +73,8 @@ export const careerEvents: CareerEvent[] = [
     commitType: 'init',
     title: 'Curso Técnico em Mecânica Industrial',
     organization: 'SENAI CIVIT-ES',
-    sortDate: '2019-01',
+    // sortDate = 2021, ano em que o curso terminou (começou em 2019).
+    sortDate: '2021-01',
     period: '2019 — 2021',
     description: 'Formação técnica em Mecânica Industrial — base pra tudo que veio depois.',
   },
