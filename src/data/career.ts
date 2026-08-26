@@ -14,8 +14,8 @@ export const careerEvents: CareerEvent[] = [
     commitType: 'feat',
     title: 'Engenharia da Computação',
     organization: 'UCL',
-    sortDate: '2026-01',
-    period: '9º período — 2026',
+    sortDate: '2021-01',
+    period: '2021 — atual · 9º período em 2026',
     current: true,
     description: 'Graduação em andamento.',
   },
@@ -63,5 +63,15 @@ export const careerEvents: CareerEvent[] = [
     period: 'Fevereiro de 2019 — Dezembro de 2023',
     description:
       'Formação técnica em Mecânica Industrial, com base em hidráulica, desenho técnico e manutenção industrial — o ponto de partida da minha trajetória profissional.',
+  },
+  {
+    id: 'senai-civit',
+    branch: 'education',
+    commitType: 'init',
+    title: 'Curso Técnico em Mecânica Industrial',
+    organization: 'SENAI CIVIT-ES',
+    sortDate: '2019-01',
+    period: '2019 — 2021',
+    description: 'Formação técnica em Mecânica Industrial — base pra tudo que veio depois.',
   },
 ]
