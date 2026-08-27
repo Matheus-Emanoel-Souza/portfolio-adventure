@@ -17,6 +17,7 @@
   --color-primary-dim: #2a8fb8;
   --color-secondary: #863bff; /* purple — marca */
   --color-accent: #ffd166; /* gold — XP, achievements */
+  --color-branch-education: #6ee7b7; /* verde-menta claro — Career Graph: branch education */
 
   /* Estados de jogo */
   --color-success: #4ade80; /* quest completed */

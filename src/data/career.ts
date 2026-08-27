@@ -17,6 +17,13 @@ import type { CareerEvent } from '@/types'
  * Trilha agrupada (vários cursos pequenos relacionados num único commit, pra
  * não poluir o graph): mesma forma acima + `items: ['Curso 1', 'Curso 2', ...]`.
  *
+ * Evento de duração longa cujo `sortDate` aponta pro fim (ordenar pela
+ * conclusão) mas cujo início real também importa mostrar: some `startSortDate:
+ * 'YYYY-MM'` — o Career Graph acrescenta um marcador de início nesse ano, sem
+ * precisar de outro commit. Evento em andamento (`current: true`) já ganha
+ * sozinho um marcador "atual" no ano vigente quando `sortDate` ficou pra trás
+ * — não precisa de campo extra pra isso.
+ *
  * Nenhum evento de `courses` foi adicionado ainda — a branch existe na
  * arquitetura (tipos, cores, filtro, legenda), pronta pra receber cursos
  * reais quando você quiser cadastrar.
@@ -87,8 +94,10 @@ export const careerEvents: CareerEvent[] = [
     commitType: 'init',
     title: 'Curso Técnico em Mecânica Industrial',
     organization: 'SENAI CIVIT-ES',
-    // sortDate = 2021, ano em que o curso terminou (começou em 2019).
+    // sortDate = 2021, ano em que o curso terminou; startSortDate = 2019,
+    // início real — o Career Graph acrescenta um marcador visual nesse ano.
     sortDate: '2021-01',
+    startSortDate: '2019-01',
     period: '2019 — 2021',
     description: 'Formação técnica em Mecânica Industrial — base pra tudo que veio depois.',
   },

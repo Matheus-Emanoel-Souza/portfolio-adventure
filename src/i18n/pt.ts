@@ -106,6 +106,7 @@ export const pt: Dictionary = {
     branchesLabel: 'branches',
     headBadge: 'HEAD',
     currentBadge: 'ATUAL',
+    markerStartLabel: 'INÍCIO',
     filterAll: 'TODAS',
     filterCareer: 'CAREER',
     filterEducation: 'EDUCATION',

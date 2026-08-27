@@ -35,7 +35,12 @@ export function CareerGraphNode({
     <span
       aria-hidden="true"
       onClick={() => onSelect(event.id)}
-      className={[styles.node, selected && styles.nodeSelected, isHead && styles.nodeHead]
+      className={[
+        styles.node,
+        event.marker && styles.nodeMarker,
+        selected && styles.nodeSelected,
+        isHead && styles.nodeHead,
+      ]
         .filter(Boolean)
         .join(' ')}
       style={{

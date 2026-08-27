@@ -104,6 +104,7 @@ export const en: Dictionary = {
     branchesLabel: 'branches',
     headBadge: 'HEAD',
     currentBadge: 'CURRENT',
+    markerStartLabel: 'START',
     filterAll: 'ALL',
     filterCareer: 'CAREER',
     filterEducation: 'EDUCATION',

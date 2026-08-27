@@ -1,4 +1,4 @@
-import { forwardRef, type KeyboardEvent } from 'react'
+import { forwardRef, type CSSProperties, type KeyboardEvent } from 'react'
 import type { Dictionary } from '@/i18n/types'
 import { BRANCH_META } from './careerGraph.config'
 import type { LayoutedCareerEvent } from './careerGraph.types'
@@ -21,26 +21,42 @@ interface CareerGraphRowProps {
  */
 export const CareerGraphRow = forwardRef<HTMLButtonElement, CareerGraphRowProps>(
   function CareerGraphRow({ event, t, selected, dimmed, isHead, onSelect, onKeyDown }, ref) {
+    const isMarker = Boolean(event.marker)
+    const markerLabel = event.marker === 'current' ? t.careerGraph.currentBadge : t.careerGraph.markerStartLabel
+    const ariaLabel = [
+      isMarker ? markerLabel : null,
+      `${t.careerGraph.selectedAria}: ${event.title}${event.organization ? `, ${event.organization}` : ''}`,
+    ]
+      .filter(Boolean)
+      .join(' — ')
+
     return (
       <li className={styles.row}>
         <button
           ref={ref}
           type="button"
           aria-pressed={selected}
-          aria-label={`${t.careerGraph.selectedAria}: ${event.title}${event.organization ? `, ${event.organization}` : ''}`}
+          aria-label={ariaLabel}
           className={[styles.rowButton, selected && styles.rowButtonSelected, dimmed && styles.rowDimmed]
             .filter(Boolean)
             .join(' ')}
+          style={{ '--row-branch-color': BRANCH_META[event.branch].colorVar } as CSSProperties}
           onClick={() => onSelect(event.id)}
           onKeyDown={onKeyDown}
         >
           <span className={styles.rowSummary}>
-            <code className={styles.rowCommitType}>
-              {t.commitType[event.commitType]}({BRANCH_META[event.branch].branch}):
-            </code>
+            {isMarker ? (
+              <span className={event.marker === 'current' ? styles.badgeCurrent : styles.badgeStart}>
+                {markerLabel}
+              </span>
+            ) : (
+              <code className={styles.rowCommitType}>
+                {t.commitType[event.commitType]}({BRANCH_META[event.branch].branch}):
+              </code>
+            )}
             <span className={styles.rowTitle}>{event.title}</span>
             {isHead && <span className={styles.badgeHead}>{t.careerGraph.headBadge}</span>}
-            {!isHead && event.current && (
+            {!isHead && !isMarker && event.current && (
               <span className={styles.badgeCurrent}>{t.careerGraph.currentBadge}</span>
             )}
           </span>

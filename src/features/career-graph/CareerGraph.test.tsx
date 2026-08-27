@@ -53,10 +53,16 @@ const events: CareerEvent[] = [
   },
 ]
 
-function renderGraph() {
+// "now" fixo, anterior a qualquer sortDate em andamento na fixture — nenhum
+// evento aqui dispara marcador "atual" com essa data, então os testes abaixo
+// (herdados de antes dos marcadores existirem) continuam válidos sem
+// depender do relógio real do ambiente de teste.
+const NO_MARKERS_NOW = new Date('2025-01-01')
+
+function renderGraph(now: Date = NO_MARKERS_NOW) {
   return render(
     <LanguageProvider>
-      <CareerGraph events={events} />
+      <CareerGraph events={events} now={now} />
     </LanguageProvider>,
   )
 }
@@ -113,5 +119,64 @@ describe('CareerGraph', () => {
     // career/education continuam no DOM, só com destaque reduzido via CSS.
     expect(screen.getByRole('button', { name: /engenharia da computação/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /estagiário de ti.*oncovit/is })).toBeInTheDocument()
+  })
+
+  it('shows a "current" marker for career when the commit year is behind the current year', async () => {
+    const user = userEvent.setup()
+    // "now" em 2026: sortDate do Oncovit (2025-07) já ficou pra trás.
+    renderGraph(new Date('2026-06-01'))
+
+    const marker = screen.getByRole('button', { name: /ATUAL.*Oncovit|ATUAL.*Estagiário de TI/is })
+    expect(marker).toBeInTheDocument()
+
+    await user.click(marker)
+    const detailCard = screen.getByRole('complementary')
+    expect(detailCard).toHaveTextContent('Oncovit')
+  })
+
+  it('does not add a marker for a branch already positioned in the current year (ucl)', () => {
+    renderGraph(new Date('2026-06-01'))
+    // Só um botão de "Engenharia da Computação" — nenhum marcador extra pra ucl.
+    expect(screen.getAllByRole('button', { name: /engenharia da computação/i })).toHaveLength(1)
+  })
+
+  it('shows a "start" marker for a long education event whose real start differs from sortDate', async () => {
+    const user = userEvent.setup()
+    const withEducationStart = [
+      ...events,
+      {
+        id: 'senai-civit',
+        branch: 'education' as const,
+        commitType: 'init' as const,
+        title: 'Curso Técnico em Mecânica Industrial',
+        organization: 'SENAI CIVIT-ES',
+        sortDate: '2021-01',
+        startSortDate: '2019-01',
+        period: '2019 — 2021',
+        description: 'Formação técnica.',
+      },
+    ]
+    render(
+      <LanguageProvider>
+        <CareerGraph events={withEducationStart} now={NO_MARKERS_NOW} />
+      </LanguageProvider>,
+    )
+
+    const marker = screen.getByRole('button', { name: /INÍCIO.*Mecânica Industrial/is })
+    expect(marker).toBeInTheDocument()
+
+    await user.click(marker)
+    const detailCard = screen.getByRole('complementary')
+    expect(detailCard).toHaveTextContent('SENAI CIVIT-ES')
+  })
+
+  it('keeps selection and keyboard navigation working across real commits and markers', async () => {
+    const user = userEvent.setup()
+    renderGraph(new Date('2026-06-01'))
+
+    const marker = screen.getByRole('button', { name: /ATUAL.*Oncovit|ATUAL.*Estagiário de TI/is })
+    marker.focus()
+    await user.keyboard('{ArrowDown}')
+    expect(document.activeElement).not.toBe(marker)
   })
 })

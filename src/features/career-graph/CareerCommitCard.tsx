@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
+import type { CSSProperties } from 'react'
 import type { Dictionary } from '@/i18n/types'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { BRANCH_META } from './careerGraph.config'
@@ -21,6 +22,7 @@ export function CareerCommitCard({ event, t, isHead }: CareerCommitCardProps) {
         {event ? (
           <motion.div
             key={event.id}
+            style={{ '--card-branch-color': BRANCH_META[event.branch].colorVar } as CSSProperties}
             initial={reducedMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
@@ -28,7 +30,10 @@ export function CareerCommitCard({ event, t, isHead }: CareerCommitCardProps) {
             <p className={styles.cardHash}>
               commit <span>{event.hash}</span>
               {isHead && <span className={styles.badgeHead}>{t.careerGraph.headBadge}</span>}
-              {!isHead && event.current && (
+              {!isHead && event.marker === 'start' && (
+                <span className={styles.badgeStart}>{t.careerGraph.markerStartLabel}</span>
+              )}
+              {!isHead && event.marker !== 'start' && event.current && (
                 <span className={styles.badgeCurrent}>{t.careerGraph.currentBadge}</span>
               )}
             </p>

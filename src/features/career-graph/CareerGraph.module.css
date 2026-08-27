@@ -115,6 +115,21 @@
   color: var(--color-text-inverted);
 }
 
+/* Marcador de início real de um evento longo (ver `withTimelineMarkers`) —
+   acento sutil na cor da branch, não um badge de status como os acima. */
+.badgeStart {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.4rem;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  background: transparent;
+  border: 1px solid var(--row-branch-color, var(--card-branch-color, var(--color-border-strong)));
+  color: var(--row-branch-color, var(--card-branch-color, var(--color-text-muted)));
+}
+
 /* ---------- Filters ---------- */
 
 .filters {
@@ -194,6 +209,14 @@
   height: 16px;
 }
 
+/* Marcador de extremidade (início real ou "atual") — mesmo commit, outro
+   ponto do eixo; anel tracejado o distingue do commit principal sem escondê-lo. */
+.nodeMarker {
+  width: 10px;
+  height: 10px;
+  border-style: dashed;
+}
+
 .gutterYear {
   position: absolute;
   left: 0;
@@ -229,6 +252,9 @@
   text-align: left;
   background: transparent;
   border: 1px solid transparent;
+  /* Borda esquerda reservada sempre — só fica visível quando selecionado, na
+     cor da branch, pra deixar claro a que branch aquele item pertence. */
+  border-left: 2px solid transparent;
   border-radius: var(--radius-sm);
   padding: var(--space-3) var(--space-3);
   cursor: pointer;
@@ -243,6 +269,7 @@
 .rowButtonSelected {
   background: var(--color-panel);
   border-color: var(--color-border);
+  border-left-color: var(--row-branch-color);
 }
 
 .rowDimmed {
@@ -258,7 +285,8 @@
 
 .rowCommitType {
   font-family: var(--font-mono);
-  color: var(--color-primary-dim);
+  /* Acento segue a cor da branch — setado inline em CareerGraphRow. */
+  color: var(--row-branch-color, var(--color-primary-dim));
   font-size: 0.85rem;
 }
 
@@ -310,7 +338,8 @@
 }
 
 .cardHash span {
-  color: var(--color-primary);
+  /* Acento segue a cor da branch — setado inline em CareerCommitCard. */
+  color: var(--card-branch-color, var(--color-primary));
 }
 
 .cardCommitLine {
@@ -318,7 +347,7 @@
 }
 
 .cardCommitLine code {
-  color: var(--color-primary-dim);
+  color: var(--card-branch-color, var(--color-primary-dim));
 }
 
 .cardOrg {

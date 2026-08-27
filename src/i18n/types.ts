@@ -89,6 +89,7 @@ export interface Dictionary {
     branchesLabel: string
     headBadge: string
     currentBadge: string
+    markerStartLabel: string
     filterAll: string
     filterCareer: string
     filterEducation: string

@@ -17,9 +17,21 @@ export interface CareerEvent {
   organization?: string
   /** "YYYY-MM" — usado só pra ordenar/posicionar no eixo temporal, nunca exibido cru. */
   sortDate: string
+  /**
+   * "YYYY-MM" opcional — início real do evento, quando difere do ano de
+   * `sortDate` (ex.: `sortDate` aponta pro fim, pra ordenar pela conclusão).
+   * Quando presente, o Career Graph acrescenta um marcador visual de início
+   * nesse ponto do eixo, sem duplicar o commit/card do evento.
+   */
+  startSortDate?: string
   /** Texto livre exatamente como deve aparecer, ex. "Julho de 2025 — atual". */
   period: string
-  /** Marca o evento em andamento (estágio atual, graduação em curso). */
+  /**
+   * Marca o evento em andamento (estágio atual, graduação em curso). Quando
+   * `sortDate` já ficou pra trás do ano vigente, o Career Graph acrescenta um
+   * marcador "atual" no ano vigente — a branch chega até hoje mesmo o commit
+   * tendo sido registrado no início da experiência.
+   */
   current?: boolean
   description: string
   /** Nunca inventar aqui — só tecnologias/conhecimentos confirmados. */

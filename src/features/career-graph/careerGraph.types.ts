@@ -6,6 +6,14 @@ export interface LayoutedCareerEvent extends CareerEvent {
   hash: string
   /** Linha no ladder: 0 = mais recente (topo), cresce pra baixo/mais antigo. */
   row: number
+  /**
+   * Marcador de extremidade — não é um commit novo, é o mesmo evento
+   * reaparecendo num segundo ponto do eixo (início real ou "atual"), quando
+   * `sortDate` sozinho não deixa esse ponto visível. Ver `withTimelineMarkers`.
+   */
+  marker?: 'start' | 'current'
+  /** Presente só em marcadores: id do `CareerEvent` real de onde ele veio. */
+  sourceEventId?: string
 }
 
 /** Faixa vertical ocupada por uma branch — do commit mais recente ao mais antigo dela. */

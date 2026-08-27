@@ -9,19 +9,31 @@ import { CareerGraphPaths } from './CareerGraphPaths'
 import { CareerGraphRow } from './CareerGraphRow'
 import { BRANCH_META, BRANCH_ORDER, GRAPH_LAYOUT } from './careerGraph.config'
 import type { BranchFilter } from './careerGraph.types'
-import { buildBranchLanes, buildYearGutter, findHeadEvent, layoutCareerEvents } from './careerGraph.utils'
+import {
+  buildBranchLanes,
+  buildYearGutter,
+  findHeadEvent,
+  layoutCareerEvents,
+  resolveRootEventId,
+  withTimelineMarkers,
+} from './careerGraph.utils'
 import styles from './CareerGraph.module.css'
 
 interface CareerGraphProps {
   events: CareerEvent[]
+  /** Injetável só pra teste determinístico — produção usa o relógio real. */
+  now?: Date
 }
 
 /** Career Graph — a trajetória como histórico Git: branches, commits, HEAD. */
-export function CareerGraph({ events }: CareerGraphProps) {
+export function CareerGraph({ events, now }: CareerGraphProps) {
   const { t } = useLanguage()
   const [filter, setFilter] = useState<BranchFilter>('all')
 
-  const layouted = useMemo(() => layoutCareerEvents(events), [events])
+  const baseLayouted = useMemo(() => layoutCareerEvents(events), [events])
+  // Marcadores de início/atual são só desse graph — Quick Mode (que também
+  // usa `layoutCareerEvents`) continua vendo um commit por evento.
+  const layouted = useMemo(() => withTimelineMarkers(baseLayouted, now), [baseLayouted, now])
   const lanes = useMemo(() => buildBranchLanes(layouted), [layouted])
   const yearGutter = useMemo(() => buildYearGutter(layouted), [layouted])
   const headEvent = useMemo(() => findHeadEvent(events), [events])
@@ -71,7 +83,7 @@ export function CareerGraph({ events }: CareerGraphProps) {
                 colorVar={BRANCH_META[event.branch].colorVar}
                 selected={event.id === selectedId}
                 dimmed={filter !== 'all' && filter !== event.branch}
-                isHead={event.id === headEvent?.id}
+                isHead={!event.marker && resolveRootEventId(event) === headEvent?.id}
                 onSelect={setSelectedId}
               />
             ))}
@@ -88,7 +100,7 @@ export function CareerGraph({ events }: CareerGraphProps) {
                 t={t}
                 selected={event.id === selectedId}
                 dimmed={filter !== 'all' && filter !== event.branch}
-                isHead={event.id === headEvent?.id}
+                isHead={!event.marker && resolveRootEventId(event) === headEvent?.id}
                 onSelect={setSelectedId}
                 onKeyDown={(keyEvent) => handleRowKeyDown(keyEvent, index)}
               />
@@ -96,7 +108,11 @@ export function CareerGraph({ events }: CareerGraphProps) {
           </ol>
         </div>
 
-        <CareerCommitCard event={selectedEvent} t={t} isHead={selectedEvent?.id === headEvent?.id} />
+        <CareerCommitCard
+          event={selectedEvent}
+          t={t}
+          isHead={selectedEvent ? resolveRootEventId(selectedEvent) === headEvent?.id : false}
+        />
       </div>
     </div>
   )

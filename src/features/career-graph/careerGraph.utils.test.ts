@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest'
+import { careerEvents } from '@/data/career'
 import type { CareerEvent } from '@/types'
 import {
   buildBranchLanes,
   buildYearGutter,
   findHeadEvent,
   layoutCareerEvents,
+  resolveRootEventId,
   shortHash,
+  withTimelineMarkers,
 } from './careerGraph.utils'
 
 const events: CareerEvent[] = [
@@ -121,5 +124,134 @@ describe('findHeadEvent', () => {
   it('returns undefined when no career event is current', () => {
     const noCurrent = events.map((event) => ({ ...event, current: false }))
     expect(findHeadEvent(noCurrent)).toBeUndefined()
+  })
+})
+
+describe('withTimelineMarkers', () => {
+  // "now" fixo — o mecanismo lê o relógio real em produção (CareerGraph
+  // passa `now` opcional só pra teste), então fixar aqui evita teste frágil
+  // que muda de resultado dependendo do dia em que rodar.
+  const now = new Date('2026-06-15')
+
+  it('adds a "current" marker for an ongoing event whose sortDate year is behind "now"', () => {
+    const layouted = withTimelineMarkers(layoutCareerEvents(events), now)
+    const marker = layouted.find((event) => event.id === 'oncovit::current')
+
+    expect(marker).toBeDefined()
+    expect(marker?.marker).toBe('current')
+    expect(marker?.sourceEventId).toBe('oncovit')
+    expect(marker?.branch).toBe('career')
+    expect(marker?.sortDate).toBe('2026-06')
+  })
+
+  it('does not duplicate a "current" marker when sortDate is already in the "now" year (ucl)', () => {
+    const layouted = withTimelineMarkers(layoutCareerEvents(events), now)
+    expect(layouted.some((event) => event.id === 'ucl::current')).toBe(false)
+  })
+
+  it('keeps every real event untouched — markers are purely additive', () => {
+    const layouted = withTimelineMarkers(layoutCareerEvents(events), now)
+    for (const event of events) {
+      const real = layouted.find((entry) => entry.id === event.id)
+      expect(real).toBeDefined()
+      expect(real?.marker).toBeUndefined()
+      expect(real?.sortDate).toBe(event.sortDate)
+    }
+  })
+
+  it('orders the "current" marker chronologically among real commits (most recent first)', () => {
+    const layouted = withTimelineMarkers(layoutCareerEvents(events), now)
+    expect(layouted.map((event) => event.id)).toEqual([
+      'oncovit::current',
+      'ucl',
+      'oncovit',
+      'react-track',
+      'fibrasa',
+    ])
+    expect(layouted.map((event) => event.row)).toEqual([0, 1, 2, 3, 4])
+  })
+
+  it('adds a "start" marker for a long event whose startSortDate year differs from sortDate', () => {
+    const withStart: CareerEvent[] = [
+      ...events,
+      {
+        id: 'senai-civit',
+        branch: 'education',
+        commitType: 'init',
+        title: 'Curso Técnico em Mecânica Industrial',
+        organization: 'SENAI CIVIT-ES',
+        sortDate: '2021-01',
+        startSortDate: '2019-01',
+        period: '2019 — 2021',
+        description: 'Formação técnica.',
+      },
+    ]
+
+    const layouted = withTimelineMarkers(layoutCareerEvents(withStart), now)
+    const marker = layouted.find((event) => event.id === 'senai-civit::start')
+
+    expect(marker).toBeDefined()
+    expect(marker?.marker).toBe('start')
+    expect(marker?.sourceEventId).toBe('senai-civit')
+    expect(marker?.branch).toBe('education')
+    expect(marker?.sortDate).toBe('2019-01')
+    // marcador de início estende a lane pra baixo, sem mexer no commit real de 2021.
+    const lanes = buildBranchLanes(layouted)
+    const education = lanes.find((lane) => lane.branch === 'education')
+    expect(education?.bottomRow).toBe(layouted.find((e) => e.id === 'senai-civit::start')?.row)
+  })
+
+  it('does not add a "start" marker when startSortDate is the same year as sortDate', () => {
+    const sameYear: CareerEvent[] = [
+      {
+        id: 'short-course',
+        branch: 'courses',
+        commitType: 'course',
+        title: 'Curso curto',
+        sortDate: '2024-06',
+        startSortDate: '2024-01',
+        period: '2024',
+        description: 'Curso de um semestre.',
+      },
+    ]
+    const layouted = withTimelineMarkers(layoutCareerEvents(sameYear), now)
+    expect(layouted).toHaveLength(1)
+  })
+})
+
+describe('withTimelineMarkers — real career data (src/data/career.ts)', () => {
+  it('gives the ongoing Oncovit internship a "current" marker in the current year (2026)', () => {
+    const now = new Date('2026-06-01')
+    const layouted = withTimelineMarkers(layoutCareerEvents(careerEvents), now)
+    const marker = layouted.find((event) => event.id === 'oncovit::current')
+
+    expect(marker).toBeDefined()
+    expect(marker?.branch).toBe('career')
+    expect(marker?.sortDate.startsWith('2026')).toBe(true)
+  })
+
+  it('gives the SENAI CIVIT-ES technical course a "start" marker in 2019', () => {
+    const layouted = withTimelineMarkers(layoutCareerEvents(careerEvents))
+    const marker = layouted.find((event) => event.id === 'senai-civit::start')
+
+    expect(marker).toBeDefined()
+    expect(marker?.branch).toBe('education')
+    expect(marker?.sortDate).toBe('2019-01')
+  })
+})
+
+describe('resolveRootEventId', () => {
+  const now = new Date('2026-06-15')
+
+  it('returns the event\'s own id for a real commit', () => {
+    const layouted = withTimelineMarkers(layoutCareerEvents(events), now)
+    const real = layouted.find((event) => event.id === 'oncovit')
+    expect(real && resolveRootEventId(real)).toBe('oncovit')
+  })
+
+  it('returns the source event id for a marker', () => {
+    const layouted = withTimelineMarkers(layoutCareerEvents(events), now)
+    const marker = layouted.find((event) => event.id === 'oncovit::current')
+    expect(marker && resolveRootEventId(marker)).toBe('oncovit')
   })
 })

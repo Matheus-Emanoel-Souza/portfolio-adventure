@@ -34,7 +34,10 @@ export const BRANCH_META: Record<CareerBranch, BranchMeta> = {
   education: {
     branch: 'education',
     order: 1,
-    colorVar: 'var(--color-secondary)',
+    // Verde-menta claro — distinto do roxo de marca (--color-secondary, usado
+    // fora do Career Graph) e do verde de --color-success (badge "ATUAL"),
+    // pra não confundir identidade de branch com estado de commit.
+    colorVar: 'var(--color-branch-education)',
     labelKey: 'branchEducation',
     filterLabelKey: 'filterEducation',
   },

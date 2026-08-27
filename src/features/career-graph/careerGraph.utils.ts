@@ -77,3 +77,89 @@ export function buildYearGutter(layouted: LayoutedCareerEvent[]): Map<number, nu
 export function findHeadEvent(events: CareerEvent[]): CareerEvent | undefined {
   return events.find((event) => event.branch === 'career' && event.current)
 }
+
+function yearOf(sortDate: string): number {
+  return Number(sortDate.slice(0, 4))
+}
+
+function pad2(n: number): string {
+  return String(n).padStart(2, '0')
+}
+
+/** id real por trás de uma linha do ladder — pra marcador, o do `CareerEvent` original; pra commit real, o próprio. */
+export function resolveRootEventId(event: LayoutedCareerEvent): string {
+  return event.sourceEventId ?? event.id
+}
+
+/**
+ * Acrescenta marcadores de extremidade ao ladder já layoutado — puramente
+ * aditivo, nunca desloca ou remove um commit real. Cobre dois casos
+ * genéricos (não específicos de nenhum evento):
+ *
+ * - `current: true` cujo ano de `sortDate` já ficou pra trás do ano vigente:
+ *   ganha um marcador `'current'` no ano vigente, pra branch chegar
+ *   visualmente até hoje mesmo o commit tendo sido registrado no início da
+ *   experiência (ex.: Oncovit, commit em 2025, mas em andamento em 2026).
+ * - `startSortDate` com ano diferente do de `sortDate`: ganha um marcador
+ *   `'start'` nesse ano, pro início real ficar visível mesmo o commit
+ *   estando ordenado por outro marco (ex.: curso técnico, commit no ano de
+ *   conclusão, início real alguns anos antes).
+ *
+ * Reordena e renumera as `row` do conjunto combinado (reais + marcadores)
+ * pra manter um único eixo temporal consistente — é esse resultado que
+ * alimenta `buildBranchLanes`/`buildYearGutter` no Career Graph. Não afeta
+ * `layoutCareerEvents`: quem consome esse (Quick Mode) continua vendo só
+ * commits reais, um por evento.
+ */
+export function withTimelineMarkers(
+  layouted: LayoutedCareerEvent[],
+  now: Date = new Date(),
+): LayoutedCareerEvent[] {
+  const nowYear = now.getFullYear()
+  const nowSortDate = `${nowYear}-${pad2(now.getMonth() + 1)}`
+
+  interface Entry {
+    id: string
+    sortDate: string
+    base: LayoutedCareerEvent
+    marker?: 'start' | 'current'
+    sourceEventId?: string
+  }
+
+  const entries: Entry[] = layouted.map((event) => ({ id: event.id, sortDate: event.sortDate, base: event }))
+
+  for (const event of layouted) {
+    if (event.current && yearOf(event.sortDate) < nowYear) {
+      entries.push({
+        id: `${event.id}::current`,
+        sortDate: nowSortDate,
+        base: event,
+        marker: 'current',
+        sourceEventId: event.id,
+      })
+    }
+    if (event.startSortDate && yearOf(event.startSortDate) < yearOf(event.sortDate)) {
+      entries.push({
+        id: `${event.id}::start`,
+        sortDate: event.startSortDate,
+        base: event,
+        marker: 'start',
+        sourceEventId: event.id,
+      })
+    }
+  }
+
+  return entries
+    .sort((a, b) => {
+      const diff = monthIndex(b.sortDate) - monthIndex(a.sortDate)
+      return diff !== 0 ? diff : a.id.localeCompare(b.id)
+    })
+    .map((entry, row) => ({
+      ...entry.base,
+      id: entry.id,
+      sortDate: entry.sortDate,
+      row,
+      marker: entry.marker,
+      sourceEventId: entry.sourceEventId,
+    }))
+}
