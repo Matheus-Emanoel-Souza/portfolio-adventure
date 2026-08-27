@@ -1,6 +1,14 @@
 import type { Profile } from '@/types'
 
 /**
+ * Nome sugerido pro arquivo baixado — mesmo em Quick Mode e About, os dois
+ * lendo `profile.resumeUrl` abaixo. Pra trocar o currículo, só substituir o
+ * arquivo em `public/resume/` (crie a pasta se não existir) mantendo esse
+ * nome, ou mudar a constante aqui (única alteração necessária).
+ */
+export const RESUME_FILE_NAME = 'Matheus-Emanoel-Curriculo.pdf'
+
+/**
  * Dados reais confirmados: nome, handle, headline, bio, GitHub, LinkedIn e
  * e-mail. Localização e alguns Player Stats seguem em aberto — nunca
  * inventar aqui. Enquanto vazio, a UI mostra estado "a preencher".
@@ -24,4 +32,8 @@ export const profile: Profile = {
     email: 'matheusemanoelgomessouza@gmail.com',
     whatsapp: '5527995038630',
   },
+  // import.meta.env.BASE_URL = base do vite.config.ts ('/portfolio-adventure/'
+  // em produção, '/' em dev) — nunca prefixo fixo, senão quebra no GitHub
+  // Pages (Project Page, servido num subcaminho).
+  resumeUrl: `${import.meta.env.BASE_URL}resume/${RESUME_FILE_NAME}`,
 }
