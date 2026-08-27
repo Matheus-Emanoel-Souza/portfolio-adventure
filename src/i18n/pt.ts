@@ -61,6 +61,8 @@ export const pt: Dictionary = {
     contactLinkedinAction: 'Vamos nos conectar',
     contactWhatsappTitle: 'WHATSAPP',
     contactWhatsappAction: 'Conversar agora',
+    downloadResume: 'Baixar currículo',
+    resumeMeta: 'PDF',
   },
   adventureMap: {
     title: 'Mapa da Aventura',
@@ -96,6 +98,7 @@ export const pt: Dictionary = {
     bioEmptyDescription: 'Adicione uma bio real em src/data/profile.ts.',
     statsEmptyTitle: 'Stats a preencher',
     statsEmptyDescription: 'Adicione Player Stats reais em src/data/profile.ts.',
+    downloadResume: 'BAIXAR CURRÍCULO',
   },
   projects: {
     heading: 'Quests',

@@ -62,6 +62,8 @@ export interface Dictionary {
     contactLinkedinAction: string
     contactWhatsappTitle: string
     contactWhatsappAction: string
+    downloadResume: string
+    resumeMeta: string
   }
   adventureMap: {
     title: string
@@ -81,6 +83,7 @@ export interface Dictionary {
     bioEmptyDescription: string
     statsEmptyTitle: string
     statsEmptyDescription: string
+    downloadResume: string
   }
   projects: {
     heading: string
