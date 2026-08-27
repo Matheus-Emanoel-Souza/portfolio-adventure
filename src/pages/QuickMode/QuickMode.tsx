@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 import { CopyButton } from '@/components/CopyButton/CopyButton'
+import { DownloadIcon } from '@/components/icons/DownloadIcon'
 import { EmailIcon } from '@/components/icons/EmailIcon'
 import { LinkedInIcon } from '@/components/icons/LinkedInIcon'
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher/LanguageSwitcher'
 import { careerEvents } from '@/data/career'
-import { profile } from '@/data/profile'
+import { profile, RESUME_FILE_NAME } from '@/data/profile'
 import { projects } from '@/data/projects'
 import { skills } from '@/data/skills'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
@@ -46,6 +47,14 @@ export default function QuickMode() {
           <p className={styles.role}>{profile.role}</p>
           {profile.tagline && <p className={styles.tagline}>{profile.tagline}</p>}
           {profile.bio ? <p>{profile.bio}</p> : null}
+
+          <div className={styles.heroActions}>
+            <a href={profile.resumeUrl} download={RESUME_FILE_NAME} className={styles.resumeButton}>
+              <DownloadIcon className={styles.resumeIcon} />
+              {t.quickMode.downloadResume}
+            </a>
+            <span className={styles.resumeMeta}>{t.quickMode.resumeMeta}</span>
+          </div>
         </section>
 
         <section className={styles.section}>

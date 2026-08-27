@@ -2,6 +2,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it } from 'vitest'
+import { profile, RESUME_FILE_NAME } from '@/data/profile'
 import { LanguageProvider } from '@/i18n/LanguageContext'
 import QuickMode from './QuickMode'
 
@@ -18,6 +19,22 @@ function renderPage() {
 describe('QuickMode', () => {
   beforeEach(() => {
     window.localStorage.clear()
+  })
+
+  describe('Currículo', () => {
+    it('shows a download button in the Hero, pointing at profile.resumeUrl', () => {
+      renderPage()
+      const link = screen.getByRole('link', { name: 'Baixar currículo' })
+      expect(link).toHaveAttribute('href', profile.resumeUrl)
+      expect(link).toHaveAttribute('download', RESUME_FILE_NAME)
+    })
+
+    it('shows the English text when the language is English', () => {
+      window.localStorage.setItem('portfolio-adventure:lang', JSON.stringify('en'))
+      renderPage()
+      const link = screen.getByRole('link', { name: 'Download résumé' })
+      expect(link).toHaveAttribute('href', profile.resumeUrl)
+    })
   })
 
   describe('Projetos', () => {
