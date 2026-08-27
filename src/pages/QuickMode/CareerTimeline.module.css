@@ -1,0 +1,210 @@
+/**
+ * Trajetória horizontal — mais antigo (esquerda) pra mais recente (direita),
+ * espaçamento proporcional ao tempo real (ver careerTimeline.utils). Só a
+ * página rola; esta faixa rola na horizontal isolada quando não couber.
+ */
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.scroller {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+  padding: var(--space-2) 0;
+}
+
+.scroller::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scroller::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: var(--radius-sm);
+}
+
+.track {
+  position: relative;
+  height: 5.5rem;
+}
+
+.line {
+  position: absolute;
+  top: 2.75rem;
+  height: 2px;
+  background: var(--color-primary-dim);
+}
+
+.point {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  background: transparent;
+  border: none;
+  padding: 0 var(--space-2);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+}
+
+.pointYear {
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.pointYearHidden {
+  visibility: hidden;
+}
+
+.pointDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary);
+  background: var(--color-bg);
+  transition: var(--transition-fast);
+}
+
+.point:hover .pointDot {
+  background: var(--color-panel-raised);
+}
+
+.pointSelected .pointDot {
+  background: var(--color-primary);
+}
+
+.pointHead .pointDot {
+  border-style: dashed;
+  width: 14px;
+  height: 14px;
+}
+
+.pointLabel {
+  font-size: 0.75rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  max-width: 8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pointHead .pointLabel {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+}
+
+.point:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.dragHint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ---------- Detalhe do commit selecionado ---------- */
+
+.detail {
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+}
+
+.detailCommit {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  font-weight: 600;
+}
+
+.detailCommit code {
+  font-family: var(--font-mono);
+  color: var(--color-primary-dim);
+  font-weight: 400;
+}
+
+.detailHead {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  background: var(--color-accent);
+  color: var(--color-text-inverted);
+  padding: 0.15rem 0.4rem;
+  border-radius: var(--radius-sm);
+}
+
+.detailOrg {
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-1);
+}
+
+.detailPeriod {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-3);
+}
+
+.detail p:last-child {
+  margin: 0;
+}
+
+/* ---------- Formação (secundária, discreta) ---------- */
+
+.education {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.educationHeading {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.03em;
+}
+
+.educationList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.educationList strong {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.educationPeriod {
+  margin-left: var(--space-2);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .detail {
+    padding: var(--space-3) var(--space-4);
+  }
+}
