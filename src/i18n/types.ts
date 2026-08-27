@@ -38,10 +38,30 @@ export interface Dictionary {
     skillsHeading: string
     projectsHeading: string
     careerHeading: string
-    careerCurrentBadge: string
+    careerEducationHeading: string
+    careerAriaLabel: string
+    careerSelectAria: string
     contactHeading: string
     projectsEmptyTitle: string
     projectsEmptyDescription: string
+    projectsShowcaseAria: string
+    projectsPrevAria: string
+    projectsNextAria: string
+    projectsGoToAria: string
+    dragHint: string
+    projectsGithubCta: string
+    projectStatus: {
+      completed: string
+      'in-progress': string
+      planned: string
+    }
+    contactIntro: string
+    contactEmailTitle: string
+    contactEmailAction: string
+    contactLinkedinTitle: string
+    contactLinkedinAction: string
+    contactWhatsappTitle: string
+    contactWhatsappAction: string
   }
   adventureMap: {
     title: string
