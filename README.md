@@ -103,6 +103,30 @@ Todo o conteúdo real fica em `src/data/*.ts`, tipado e separado da UI:
 Os arquivos já têm comentários `TODO` nos campos que só devem ser preenchidos
 com informação real — nada de conteúdo fictício foi adicionado.
 
+### Currículo (PDF)
+
+Botão de download em dois lugares — Hero do Quick Mode (`/quick`, acesso
+principal) e About/Player Profile do Adventure Mode (`/adventure/about`,
+acesso secundário) — os dois lendo `profile.resumeUrl`
+(`src/data/profile.ts`), única fonte da URL.
+
+**Colocar/trocar o arquivo:** crie `public/resume/` (ainda não existe neste
+repositório) e coloque o PDF lá com o nome exato de `RESUME_FILE_NAME` em
+`src/data/profile.ts` (hoje `Matheus-Emanoel-Curriculo.pdf`). Tudo em
+`public/` é copiado como está pro build (`dist/`) — não precisa mexer em
+mais nada. Pra outro nome de arquivo, só mudar a constante `RESUME_FILE_NAME`
+naquele arquivo, os dois botões acompanham automaticamente.
+
+`resumeUrl` é montado como `` `${import.meta.env.BASE_URL}resume/${RESUME_FILE_NAME}` ``
+— nunca um caminho fixo tipo `/resume/...`, porque isso quebraria no GitHub
+Pages (`base: '/portfolio-adventure/'` no `vite.config.ts`, Project Page
+servida num subcaminho).
+
+⚠️ **O PDF ainda não está no repositório.** O botão já existe e a URL já
+resolve certo pro deploy, mas até o arquivo ser adicionado em
+`public/resume/Matheus-Emanoel-Curriculo.pdf`, o link resulta em 404 em
+produção.
+
 ## Career Graph
 
 `/adventure/career` representa a trajetória como um "repositório": cada

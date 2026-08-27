@@ -3,6 +3,17 @@
 Estado do projeto em 2026-08-27. Pra quem (ou o "eu" futuro) continuar sem
 reler todo o histórico do chat.
 
+**Atualização 2026-08-27 (2):** Botão de download do currículo — Hero do
+Quick Mode (principal) e About/Player Profile do Adventure Mode
+(secundário), os dois lendo `profile.resumeUrl` (fonte única,
+`src/data/profile.ts`, montada com `import.meta.env.BASE_URL` pra funcionar
+sob `/portfolio-adventure/` no GitHub Pages). Nome do arquivo centralizado
+em `RESUME_FILE_NAME`. Ícone novo `DownloadIcon` (mesmo padrão pixel dos
+outros ícones de contato). **Pendência:** o PDF em si ainda não foi
+adicionado — falta colocar `Matheus-Emanoel-Curriculo.pdf` em
+`public/resume/` (pasta ainda não existe) antes do próximo deploy, senão o
+botão 404. Ver seção "Currículo (PDF)" do README.
+
 **Atualização 2026-08-27:** Redesign do Quick Mode (`src/pages/QuickMode/`),
 sem tocar no Career Graph do Adventure Mode. Três mudanças principais:
 (1) Projetos virou showcase horizontal (`ProjectShowcase.tsx` +
