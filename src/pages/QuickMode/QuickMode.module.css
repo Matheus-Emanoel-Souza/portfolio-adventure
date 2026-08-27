@@ -34,7 +34,7 @@
 .main {
   flex: 1;
   width: 100%;
-  max-width: 48rem;
+  max-width: 60rem;
   margin: 0 auto;
   padding: var(--space-8) var(--space-6);
   display: flex;
@@ -49,6 +49,25 @@
   padding-bottom: var(--space-2);
   margin-bottom: var(--space-4);
 }
+
+/* Projetos e Trajetória usam a largura toda do .main — precisam de mais
+   espaço horizontal que um parágrafo de texto pra render bem o showcase e a
+   timeline. Sem breakout de viewport (risco de overflow horizontal). */
+.sectionWide {
+  width: 100%;
+}
+
+.role {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.tagline {
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Skills ---------- */
 
 .skillGroups {
   display: flex;
@@ -78,75 +97,100 @@
   border-radius: var(--radius-sm);
 }
 
-.projectList {
-  display: flex;
-  flex-direction: column;
+/* ---------- Contato ---------- */
+
+.contactIntro {
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-6);
+  max-width: 34rem;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--space-4);
 }
 
-.careerList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  margin: 0;
-  padding: 0;
-  list-style: none;
+@media (min-width: 640px) {
+  .contactGrid {
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
 }
 
-.careerItem {
-  border-left: var(--border-width) solid var(--color-border);
-  padding-left: var(--space-4);
-}
-
-.careerItemHeader {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-}
-
-.careerCurrentBadge {
-  font-family: var(--font-display);
-  font-size: 0.55rem;
-  color: var(--color-text-inverted);
-  background: var(--color-success);
-  padding: 0.15rem 0.4rem;
-  border-radius: var(--radius-sm);
-}
-
-.careerOrg {
-  color: var(--color-text-muted);
-  margin: var(--space-1) 0 0;
-}
-
-.careerPeriod {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  margin: var(--space-1) 0 0;
-}
-
-.contactList {
+.contactCard {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
 }
 
-.primaryContactLink {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  color: var(--color-secondary);
-}
-
-.whatsappLink {
-  display: inline-flex;
+.contactCardLink {
+  display: flex;
   align-items: center;
-  gap: var(--space-2);
-  width: fit-content;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--color-text);
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast),
+    background var(--transition-fast);
 }
 
-.whatsappIcon {
-  width: 1rem;
-  height: 1rem;
-  color: var(--color-success);
+.contactCardLink:hover,
+.contactCardLink:focus-visible {
+  border-color: var(--color-border-strong);
+  background: var(--color-panel-raised);
+  transform: translateY(-2px);
+}
+
+.contactCardIcon {
   flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-alt);
+  color: var(--color-primary);
+}
+
+.contactIconSvg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.contactCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.contactCardTitle {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.contactCardAction {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+}
+
+.contactCardExtra {
+  align-self: flex-start;
+  padding-left: var(--space-2);
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: var(--space-4);
+  }
 }
