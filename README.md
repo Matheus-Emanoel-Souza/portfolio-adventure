@@ -158,10 +158,27 @@ eventos com esse `branch` em `data/career.ts`. O layout (`layoutCareerEvents`,
 `buildBranchLanes`), o SVG e a legenda/filtros já iteram as branches
 presentes em `BRANCH_META`/dados — nada hardcoded pra um número fixo.
 
-`Quick Mode` (`/quick`) reusa a mesma `data/career.ts` (via
-`layoutCareerEvents`) numa lista simples, sem o graph, filtrando fora a
-branch `courses` (cursos avulsos poluiriam a leitura rápida de
-recrutador) — uma única fonte de conteúdo pras duas visões.
+`Quick Mode` (`/quick`, `src/pages/QuickMode/CareerTimeline.tsx`) reusa a
+mesma `data/career.ts` — via `withTimelineMarkers`/`layoutCareerEvents` do
+Career Graph (`careerTimeline.utils.ts` só adiciona a posição horizontal
+proporcional ao tempo) — numa timeline horizontal simplificada, só a branch
+`career`, mais antigo pra mais recente (esquerda pra direita). O mesmo
+marcador "atual" do Career Graph vira o ponto **HEAD** no fim da linha
+quando o cargo em andamento tiver `sortDate` no passado. `education` some
+numa lista secundária discreta abaixo da timeline; `courses` fica de fora,
+como no graph vertical — uma única fonte de conteúdo pras duas visões.
+
+### Showcase de projetos (Quick Mode)
+
+`src/pages/QuickMode/ProjectShowcase.tsx` + `ProjectPanel.tsx` — um painel
+horizontal por `Project` (mesmos campos de `data/projects.ts`, sem campo
+novo), navegação via CSS Scroll Snap (arraste/swipe/trackpad) + setas +
+indicador de posição, sem carousel automático. Pra adicionar screenshots a
+um projeto, preencha `screenshots: string[]` (caminhos de imagem) em
+`data/projects.ts` — o painel mostra até 2 lado a lado com o texto quando o
+campo existir; sem `screenshots`, o texto ocupa a largura toda (nunca usa
+imagem fictícia). O CTA de GitHub abaixo do showcase usa
+`profile.social.github` (nunca hardcoded).
 
 ## Gamificação
 
@@ -202,8 +219,13 @@ a source como **GitHub Actions**.
 Smoke tests em `src/App.test.tsx` cobrem a Home, a navegação pro hub da
 aventura e pro Quick Mode, e a seleção de commit no Career Graph.
 `src/features/career-graph/careerGraph.utils.test.ts` cobre a lógica pura de
-layout (ordenação, hash determinístico, lanes, gutter de anos). Rodar com
-`npm run test -- --run`.
+layout (ordenação, hash determinístico, lanes, gutter de anos, marcadores de
+início/atual). `src/pages/QuickMode/QuickMode.test.tsx` cobre o showcase de
+projetos (render, navegação por seta/bolinha, link de GitHub individual e
+CTA geral), a timeline horizontal (branch `career` só, ordem cronológica,
+HEAD, seleção) e o contato (Email/LinkedIn/WhatsApp, GitHub ausente, links
+corretos); `careerTimeline.utils.test.ts` cobre a lógica pura de posição
+horizontal/HEAD isoladamente. Rodar com `npm run test -- --run`.
 
 ## Próximos passos sugeridos
 

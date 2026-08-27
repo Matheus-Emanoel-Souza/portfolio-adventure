@@ -1,7 +1,21 @@
 # Handoff — Portfolio Adventure
 
-Estado do projeto em 2026-08-26. Pra quem (ou o "eu" futuro) continuar sem
+Estado do projeto em 2026-08-27. Pra quem (ou o "eu" futuro) continuar sem
 reler todo o histórico do chat.
+
+**Atualização 2026-08-27:** Redesign do Quick Mode (`src/pages/QuickMode/`),
+sem tocar no Career Graph do Adventure Mode. Três mudanças principais:
+(1) Projetos virou showcase horizontal (`ProjectShowcase.tsx` +
+`ProjectPanel.tsx`) — um painel por `Project`, CSS Scroll Snap (sem lib de
+carousel), setas + indicador de posição, CTA de GitHub geral abaixo (o link
+de GitHub saiu de Contato); (2) Trajetória virou timeline horizontal
+(`CareerTimeline.tsx` + `careerTimeline.utils.ts`) — só a branch `career`,
+mais antigo → mais recente, reusando o mesmo `withTimelineMarkers` do Career
+Graph pro ponto HEAD; `education` ficou numa lista secundária discreta;
+(3) Contato virou três cards grandes (Email/LinkedIn/WhatsApp, sem GitHub),
+com ícones novos em pixel art (`components/icons/{Email,LinkedIn,GitHub}Icon.tsx`,
+mesmo padrão do `WhatsAppIcon`). Testes em
+`src/pages/QuickMode/QuickMode.test.tsx` e `careerTimeline.utils.test.ts`.
 
 **Atualização 2026-08-26:** `data/timeline.ts` + página `QuestLog` foram
 substituídos por `data/career.ts` + `/adventure/career` (**Career Graph**) —
